@@ -1,0 +1,771 @@
+/* ============================================================================
+   PULSO · CAPA DE MOVIMIENTO
+   Se carga DESPUÉS de styles.css. Añade 3D real con CSS, revelados y parallax.
+   Nada de aquí cambia la estructura: solo transform, opacity y filtros.
+   ========================================================================== */
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-reveal: 900ms;
+  --dur-tilt-return: 700ms;
+  --dur-tilt-live: 80ms;
+}
+
+/* ---------------------------------------------------------------------------
+   1 · REVELADO AL HACER SCROLL
+   El estado oculto solo se aplica si motion.js cargó (.js-motion). Si el JS
+   falla, el contenido se ve igual.
+   ------------------------------------------------------------------------- */
+
+.js-motion [data-reveal] {
+  opacity: 0;
+  transition: opacity var(--dur-reveal) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-motion [data-reveal].is-revealed {
+  opacity: 1;
+}
+
+/* Elementos sin tilt: el desplazamiento vertical se anima directamente. */
+.js-motion [data-reveal]:not([data-tilt]) {
+  transform: translate3d(0, 36px, 0);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out-expo),
+    transform var(--dur-reveal) var(--ease-out-expo);
+}
+
+.js-motion [data-reveal]:not([data-tilt]).is-revealed {
+  transform: translate3d(0, 0, 0);
+}
+
+/* ---------------------------------------------------------------------------
+   2 · TILT 3D
+   Un solo `transform` compuesto por variables para que revelado y tilt
+   nunca se pisen.
+   ------------------------------------------------------------------------- */
+
+[data-tilt] {
+  --tilt-rx: 0deg;
+  --tilt-ry: 0deg;
+  --tilt-shift: 0px;
+  --tilt-perspective: 1100px;
+  transform:
+    perspective(var(--tilt-perspective))
+    rotateX(var(--tilt-rx))
+    rotateY(var(--tilt-ry))
+    translate3d(0, var(--tilt-shift), 0);
+  transform-style: preserve-3d;
+  transition: transform var(--dur-tilt-return) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: transform;
+}
+
+/* Solo los que además se revelan arrancan desplazados. */
+.js-motion [data-tilt][data-reveal] {
+  --tilt-shift: 36px;
+}
+
+.js-motion [data-tilt][data-reveal].is-revealed {
+  --tilt-shift: 0px;
+}
+
+/* Mientras el puntero está encima, el tilt debe seguir al cursor sin lag. */
+[data-tilt].is-tilting {
+  transition: transform var(--dur-tilt-live) linear;
+  transition-delay: 0ms;
+}
+
+/* ---------------------------------------------------------------------------
+   3 · PARALLAX INTERNO DEL HERO
+   Capas que se desplazan a distinta velocidad según el tilt. Crea profundidad
+   incluso dentro de un contenedor con overflow: hidden.
+   ------------------------------------------------------------------------- */
+
+.hero-visual .hero-image,
+.hero-visual .hero-orbit,
+.hero-visual .hero-visual-head,
+.hero-visual .hero-product-card {
+  transition: transform 420ms var(--ease-out-expo);
+  will-change: transform;
+}
+
+.hero-visual.is-tilting .hero-image,
+.hero-visual.is-tilting .hero-orbit,
+.hero-visual.is-tilting .hero-visual-head,
+.hero-visual.is-tilting .hero-product-card {
+  transition: transform 90ms linear;
+}
+
+.hero-visual .hero-orbit {
+  transform: translate3d(
+    calc(var(--tilt-x, 0) * -10px),
+    calc(var(--tilt-y, 0) * -10px),
+    0
+  );
+}
+
+.hero-visual .hero-image {
+  transform: translate3d(
+    calc(var(--tilt-x, 0) * 16px),
+    calc(var(--tilt-y, 0) * 16px),
+    0
+  );
+}
+
+.hero-visual .hero-visual-head {
+  transform: translate3d(
+    calc(var(--tilt-x, 0) * 6px),
+    calc(var(--tilt-y, 0) * 6px),
+    0
+  );
+}
+
+.hero-visual .hero-product-card {
+  transform: translate3d(
+    calc(var(--tilt-x, 0) * 26px),
+    calc(var(--tilt-y, 0) * 22px),
+    0
+  );
+}
+
+.hero-visual .hero-sticker {
+  transform:
+    rotate(7deg)
+    translate3d(
+      calc(var(--tilt-x, 0) * 32px),
+      calc(var(--tilt-y, 0) * 28px),
+      0
+    );
+  transition: transform 420ms var(--ease-out-expo);
+  will-change: transform;
+}
+
+.hero-visual.is-tilting .hero-sticker {
+  transition: transform 90ms linear;
+}
+
+/* ---------------------------------------------------------------------------
+   4 · PARALLAX DE SCROLL DEL HERO
+   motion.js escribe --scroll-progress (0 → 1) en .hero.
+   ------------------------------------------------------------------------- */
+
+/* Lienzo de la escena Three.js: dentro del panel claro, bajo la foto del producto. */
+.hero-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.hero {
+  --scroll-progress: 0;
+}
+
+.hero-orbit {
+  transform: scale(calc(1 + var(--scroll-progress, 0) * 0.06));
+  transition: transform 120ms linear;
+}
+
+.hero-copy .eyebrow,
+.hero-copy .hero-lede,
+.hero-copy .hero-actions,
+.hero-copy .hero-platforms {
+  transform: translate3d(0, calc(var(--scroll-progress, 0) * -26px), 0);
+  transition: transform 120ms linear;
+}
+
+.hero-copy h1 {
+  transform: translate3d(0, calc(var(--scroll-progress, 0) * -46px), 0);
+  transition: transform 120ms linear;
+}
+
+/* ---------------------------------------------------------------------------
+   5 · TARJETAS DE PRODUCTO
+   Tilt suave + brillo que barre la tarjeta. El JS marca .is-tilting.
+   ------------------------------------------------------------------------- */
+
+.product-card {
+  --tilt-rx: 0deg;
+  --tilt-ry: 0deg;
+  --card-lift: 0px;
+  --sheen-x: 50%;
+  --sheen-y: 50%;
+  position: relative;
+  transform:
+    perspective(900px)
+    rotateX(var(--tilt-rx))
+    rotateY(var(--tilt-ry))
+    translateY(var(--card-lift));
+  transform-style: preserve-3d;
+  transition: transform 240ms var(--ease-out-expo), border-color 190ms ease-out;
+}
+
+.product-card:hover {
+  --card-lift: -2px;
+}
+
+.product-card.is-tilting {
+  transition: transform 80ms linear, border-color 190ms ease-out;
+}
+
+/* Brillo diagonal que sigue al puntero. */
+.product-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  background: radial-gradient(
+    320px circle at var(--sheen-x) var(--sheen-y),
+    rgba(214, 255, 79, 0.22),
+    rgba(118, 241, 208, 0.07) 45%,
+    transparent 66%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease-out;
+}
+
+.product-card:hover::after {
+  opacity: 1;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.045);
+}
+
+/* ---------------------------------------------------------------------------
+   5b · CATEGORÍAS CON FLIP 3D
+   La tarjeta se voltea al pasar el ratón: cara frontal con la foto y reverso
+   con el resumen de la categoría.
+   ------------------------------------------------------------------------- */
+
+.category-card {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  perspective: 1200px;
+  isolation: isolate;
+}
+
+.category-card-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 720ms var(--ease-out-expo);
+  will-change: transform;
+}
+
+.category-card:hover .category-card-inner,
+.category-card:focus-visible .category-card-inner {
+  transform: rotateY(180deg);
+}
+
+.category-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 21px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--ink);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.category-face-front {
+  z-index: 2;
+}
+
+.category-card-accent .category-face-front {
+  border-color: var(--lime);
+  background: var(--lime);
+  color: #0a0d0a;
+}
+
+.category-card-accessory .category-face-front {
+  border-color: #f5f6f2;
+  background: #f5f6f2;
+  color: #0a0d0a;
+}
+
+/* Reverso lima por defecto; la tarjeta lima invierte a negro. */
+.category-face-back {
+  transform: rotateY(180deg);
+  border-color: var(--lime);
+  background: var(--lime);
+  color: #0a0d0a;
+}
+
+.category-card-accent .category-face-back {
+  border-color: rgba(214, 255, 79, 0.38);
+  background: var(--surface);
+  color: var(--lime);
+}
+
+.category-copy .category-back-kicker {
+  max-width: none;
+  margin: 0 0 2px;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.category-copy .category-back-list {
+  min-height: 3em;
+  max-width: 24ch;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.74;
+}
+
+/* En táctil no hay hover: se queda la cara frontal. */
+@media (hover: none) {
+  .category-card:hover .category-card-inner {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5c · MARQUEE
+   Banda de texto en movimiento con dos grupos idénticos: al desplazar -50%
+   el segundo grupo ocupa exactamente el lugar del primero (bucle sin salto).
+   ------------------------------------------------------------------------- */
+
+.marquee {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  padding: clamp(16px, 2.6vw, 30px) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: marquee-scroll 34s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.marquee-item {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 30px);
+  padding-right: clamp(16px, 2.4vw, 30px);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.marquee-item::after {
+  content: "";
+  width: clamp(6px, 0.7vw, 10px);
+  height: clamp(6px, 0.7vw, 10px);
+  flex: none;
+  border-radius: 50%;
+  background: var(--lime);
+}
+
+.marquee-item:nth-child(even) {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(242, 240, 231, 0.34);
+}
+
+.marquee-item:nth-child(5n + 5) {
+  color: var(--lime);
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* La sección de catálogo ya no necesita su borde: el marquee cierra la banda. */
+.marquee + .catalog-section {
+  border-top: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   6 · BOTONES MAGNÉTICOS Y GLOW DE CURSOR
+   ------------------------------------------------------------------------- */
+
+.btn,
+.hero-product-link,
+.add-btn,
+.text-link {
+  transition:
+    transform 260ms var(--ease-out-expo),
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    color 180ms ease-out;
+  will-change: transform;
+}
+
+.btn.is-magnetized,
+.hero-product-link.is-magnetized,
+.add-btn.is-magnetized {
+  transition: transform 80ms linear;
+}
+
+/* Halo lime que sigue al puntero. Solo en dispositivos con hover fino. */
+@media (hover: hover) and (pointer: fine) {
+  .cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 55;
+    width: 420px;
+    height: 420px;
+    margin: -210px 0 0 -210px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(214, 255, 79, 0.09),
+      rgba(118, 241, 208, 0.045) 42%,
+      transparent 68%
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 420ms ease-out;
+    will-change: transform;
+  }
+
+  .cursor-glow.is-active {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   7 · CABECERA CONDENSADA
+   ------------------------------------------------------------------------- */
+
+.site-header {
+  transition:
+    background-color 260ms ease-out,
+    border-color 260ms ease-out,
+    padding 260ms var(--ease-out-expo);
+}
+
+.site-header.is-condensed .header-inner {
+  transition: transform 260ms var(--ease-out-expo);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------------------
+   8 · ENTRADA ESCALONADA DE LAS TARJETAS
+   `backwards` (no `both`) para que al terminar vuelva a mandar el transform
+   del tilt y no lo bloquee.
+   ------------------------------------------------------------------------- */
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.product-card.is-entering {
+  animation: card-in 560ms var(--ease-out-expo) backwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* ---------------------------------------------------------------------------
+   9 · TÍTULO DEL HERO: REVELADO PALABRA POR PALABRA
+   motion.js envuelve cada palabra en .hero-word > .hero-word-in
+   ------------------------------------------------------------------------- */
+
+.hero h1 {
+  perspective: 820px;
+}
+
+.hero-word {
+  display: inline-block;
+  overflow: hidden;
+  /* deja respirar los descendentes (p, q, g) al recortar */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+  vertical-align: bottom;
+}
+
+.hero-word-in {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+
+/* Estado previo: solo mientras el motor está armando la animación. */
+.hero-word.is-armed .hero-word-in {
+  opacity: 0;
+  transform: translate3d(0, 115%, 0) rotateX(-64deg);
+}
+
+.hero-word.is-in .hero-word-in {
+  animation: word-rise 900ms var(--ease-out-expo) forwards;
+  animation-delay: var(--word-delay, 0ms);
+}
+
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 115%, 0) rotateX(-64deg);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   10 · BARRA DE PROGRESO DE LECTURA
+   ------------------------------------------------------------------------- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 600;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime), var(--mint));
+  transform: scaleX(var(--scroll-ratio, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------------------
+   11 · INTERRUPTOR DE ANIMACIONES
+   Permite ver el movimiento aunque el sistema tenga "reducir movimiento".
+   ------------------------------------------------------------------------- */
+
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 180ms ease-out, color 180ms ease-out;
+}
+
+.motion-toggle:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.motion-toggle-dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--faint);
+  transition: background-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.motion-toggle[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: rgba(214, 255, 79, 0.4);
+}
+
+.motion-toggle[aria-pressed="true"] .motion-toggle-dot {
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(214, 255, 79, 0.14);
+}
+
+/* Aviso flotante cuando el sistema tiene el movimiento reducido.
+   motion.js solo lo crea si no hay una preferencia guardada. */
+.motion-hint {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 590;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  max-width: min(430px, calc(100vw - 40px));
+  padding: 12px 14px;
+  border: 1px solid rgba(214, 255, 79, 0.32);
+  border-radius: 14px;
+  background: rgba(19, 24, 21, 0.96);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.motion-hint p {
+  flex: 1 1 180px;
+  margin: 0;
+}
+
+.motion-hint [data-motion-on] {
+  flex: none;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lime);
+  color: #0a0d0a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 160ms ease-out;
+}
+
+.motion-hint [data-motion-on]:hover {
+  background: var(--lime-deep);
+}
+
+.motion-hint-close {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--faint);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 160ms ease-out, background-color 160ms ease-out;
+}
+
+.motion-hint-close:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+}
+
+@media (max-width: 560px) {
+  .motion-hint {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   12 · RESPETO A PREFERS-REDUCED-MOTION
+   Todo el movimiento se apaga, pero el contenido sigue visible.
+   El interruptor del footer lo reactiva con [data-motion="on"].
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="on"]) [data-reveal],
+  :root:not([data-motion="on"]) [data-reveal].is-revealed,
+  :root:not([data-motion="on"]) [data-reveal]:not([data-tilt]),
+  :root:not([data-motion="on"]) [data-reveal]:not([data-tilt]).is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  :root:not([data-motion="on"]) .hero-word.is-armed .hero-word-in,
+  :root:not([data-motion="on"]) .hero-word.is-in .hero-word-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  :root:not([data-motion="on"]) .scroll-progress {
+    display: none !important;
+  }
+
+  :root:not([data-motion="on"]) [data-tilt],
+  :root:not([data-motion="on"]) [data-tilt].is-revealed {
+    --tilt-shift: 0px;
+    transform: none;
+    transition: none;
+  }
+
+  :root:not([data-motion="on"]) .hero,
+  :root:not([data-motion="on"]) .hero-copy h1,
+  :root:not([data-motion="on"]) .hero-copy .eyebrow,
+  :root:not([data-motion="on"]) .hero-copy .hero-lede,
+  :root:not([data-motion="on"]) .hero-copy .hero-actions,
+  :root:not([data-motion="on"]) .hero-copy .hero-platforms,
+  :root:not([data-motion="on"]) .hero-orbit,
+  :root:not([data-motion="on"]) .hero-visual .hero-image,
+  :root:not([data-motion="on"]) .hero-visual .hero-orbit,
+  :root:not([data-motion="on"]) .hero-visual .hero-visual-head,
+  :root:not([data-motion="on"]) .hero-visual .hero-product-card,
+  :root:not([data-motion="on"]) .hero-visual .hero-sticker,
+  :root:not([data-motion="on"]) .product-card,
+  :root:not([data-motion="on"]) .product-card:hover,
+  :root:not([data-motion="on"]) .product-card:hover .product-image {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  :root:not([data-motion="on"]) .product-card::after,
+  :root:not([data-motion="on"]) .cursor-glow {
+    display: none !important;
+  }
+
+  :root:not([data-motion="on"]) .category-card-inner {
+    transition: none;
+  }
+
+  :root:not([data-motion="on"]) .category-card:hover .category-card-inner,
+  :root:not([data-motion="on"]) .category-card:focus-visible .category-card-inner {
+    transform: none;
+  }
+
+  :root:not([data-motion="on"]) .marquee-track {
+    animation: none;
+    transform: none;
+  }
+}

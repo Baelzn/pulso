@@ -1,0 +1,10 @@
+# Herramientas de OpenDesign: no forman parte del sitio
+.od-frames/
+.od-skills/
+.file-versions/
+index.html.artifact.json
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store

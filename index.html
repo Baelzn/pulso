@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d0c">
+  <meta name="description" content="PULSO: consolas, juegos y mandos para tu próximo setup. Prototipo de tienda con catálogo de demostración.">
+  <title>PULSO — Consolas, juegos y mandos</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d6ff4f'/%3E%3Cpath d='M19 49V15h17c9 0 14 5 14 13s-5 13-14 13h-7v8H19Zm10-17h7c3 0 5-1 5-4s-2-4-5-4h-7v8Z' fill='%230b0d0c'/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="motion.css">
+  <script src="app.js" defer></script>
+  <script src="motion.js" defer></script>
+  <script type="module" src="hero-3d.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
+
+  <div class="demo-strip">
+    <p>Prototipo de tienda · Precios y disponibilidad de demostración</p>
+  </div>
+
+  <header class="site-header" id="inicio">
+    <div class="header-inner shell">
+      <a class="brand" href="#inicio" aria-label="PULSO, volver al inicio">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span class="brand-type">
+          <strong>PULSO</strong>
+          <small>Gaming store</small>
+        </span>
+      </a>
+
+      <nav class="primary-nav" aria-label="Navegación principal">
+        <a href="#catalogo" data-filter-link="consolas">Consolas</a>
+        <a href="#catalogo" data-filter-link="juegos">Juegos</a>
+        <a href="#catalogo" data-filter-link="mandos">Mandos</a>
+        <a href="#catalogo" data-filter-link="accesorios">Accesorios</a>
+      </nav>
+
+      <div class="header-actions">
+        <form class="search" id="search-form" role="search">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <label class="sr-only" for="search-input">Buscar en la tienda</label>
+          <input id="search-input" name="q" type="search" placeholder="Buscar producto" autocomplete="off">
+          <button class="search-clear" id="search-clear" type="button" aria-label="Borrar búsqueda" hidden>
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <path d="m6 6 12 12M18 6 6 18"></path>
+            </svg>
+          </button>
+        </form>
+
+        <button class="cart-trigger" id="cart-open" type="button" aria-label="Abrir carrito, 0 artículos">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5.5 8.5h13l-1 12h-11l-1-12Z"></path>
+            <path d="M9 8.5V6a3 3 0 0 1 6 0v2.5"></path>
+          </svg>
+          <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+        </button>
+
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="sr-only">Abrir menú</span>
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menú móvil" hidden>
+      <a href="#catalogo" data-filter-link="consolas">Consolas <span>03</span></a>
+      <a href="#catalogo" data-filter-link="juegos">Juegos <span>05</span></a>
+      <a href="#catalogo" data-filter-link="mandos">Mandos <span>03</span></a>
+      <a href="#catalogo" data-filter-link="accesorios">Accesorios <span>01</span></a>
+      <p>Prototipo · Sin transacciones reales</p>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner shell">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> Consolas · Juegos · Mandos</p>
+          <h1 id="hero-title">Tu próximo <span class="accent">nivel</span> empieza aquí.</h1>
+          <p class="hero-lede">Hardware, títulos y accesorios para jugar como quieres. Una selección cuidada, sin ruido y lista para tu próximo setup.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#catalogo" data-filter-link="consolas">
+              Ver consolas
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
+            <a class="btn btn-secondary" href="#catalogo" data-filter-link="juegos">Explorar juegos</a>
+          </div>
+
+          <ul class="hero-platforms" aria-label="Plataformas disponibles">
+            <li>
+              <span class="platform-dot" aria-hidden="true"></span>
+              <span class="platform-copy"><strong>PS5</strong><span>PlayStation 5</span></span>
+            </li>
+            <li>
+              <span class="platform-dot" aria-hidden="true"></span>
+              <span class="platform-copy"><strong>Xbox</strong><span>Series X|S</span></span>
+            </li>
+            <li>
+              <span class="platform-dot" aria-hidden="true"></span>
+              <span class="platform-copy"><strong>Switch</strong><span>Nintendo</span></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-label="Producto destacado: PlayStation 5" data-tilt data-tilt-max="3.2">
+          <canvas class="hero-3d" id="hero-3d" aria-hidden="true"></canvas>
+          <div class="hero-visual-head">
+            <span>01 / Destacado</span>
+            <span>PS5</span>
+          </div>
+          <div class="hero-orbit" aria-hidden="true"></div>
+          <img class="hero-image" src="assets/img/ps5.webp" alt="PlayStation 5 vertical con mando DualSense" width="1100" height="1467" fetchpriority="high">
+          <span class="hero-sticker">Selección<br>PULSO</span>
+          <div class="hero-product-card">
+            <div>
+              <p class="hero-product-kicker">PlayStation 5</p>
+              <p class="hero-product-spec">1 TB · Lector de discos</p>
+            </div>
+            <p class="hero-product-price od-nowrap">499,99 €</p>
+            <button class="hero-product-link" type="button" data-open-product="ps5">
+              Ver ficha
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17 17 7M8 7h9v9"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="hero-measure" aria-hidden="true">
+            <span>1 TB SSD</span>
+            <span>4K · 120 FPS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="service-band" aria-label="Servicios de la tienda">
+      <div class="shell service-grid">
+        <div class="service-item">
+          <span class="service-icon" aria-hidden="true">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h11v10H3zM14 9h4l3 3v4h-7z"></path>
+              <circle cx="7" cy="18" r="2"></circle>
+              <circle cx="17" cy="18" r="2"></circle>
+            </svg>
+          </span>
+          <span class="service-copy"><strong>Envío protegido</strong><span>Preparado para llegar intacto</span></span>
+        </div>
+        <div class="service-item">
+          <span class="service-icon" aria-hidden="true">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 20 6v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6l8-3Z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+          </span>
+          <span class="service-copy"><strong>Garantía oficial</strong><span>Producto original y sellado</span></span>
+        </div>
+        <div class="service-item">
+          <span class="service-icon" aria-hidden="true">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M3 10h18"></path>
+            </svg>
+          </span>
+          <span class="service-copy"><strong>Pago seguro</strong><span>Checkout de demostración</span></span>
+        </div>
+        <div class="service-item">
+          <span class="service-icon" aria-hidden="true">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14v-2a8 8 0 0 1 16 0v2"></path>
+              <path d="M4 14a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2ZM20 14a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2Z"></path>
+            </svg>
+          </span>
+          <span class="service-copy"><strong>Soporte cercano</strong><span>Te ayudamos a elegir</span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section categories-section" id="categorias" aria-labelledby="categorias-title">
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <div>
+            <p class="section-index">01 / Explora</p>
+            <h2 id="categorias-title">Encuentra tu categoría.</h2>
+          </div>
+          <a class="text-link" href="#catalogo" data-filter-link="all">
+            Ver todo
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="category-grid">
+          <a class="category-card category-card-accent" href="#catalogo" data-filter-link="consolas" data-reveal>
+            <div class="category-card-inner">
+              <div class="category-face category-face-front">
+                <span class="category-num">01</span>
+                <div class="category-copy">
+                  <h3>Consolas</h3>
+                  <p>Potencia de sobremesa y juego portátil.</p>
+                  <span class="category-cta"><span data-category-count="consolas">3</span> productos
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+                <img class="category-image category-image-console" src="assets/img/ps5.webp" alt="" width="1100" height="1467" loading="lazy">
+              </div>
+              <div class="category-face category-face-back" aria-hidden="true">
+                <span class="category-num">01</span>
+                <div class="category-copy">
+                  <p class="category-back-kicker">En esta categoría</p>
+                  <h3>Consolas</h3>
+                  <p class="category-back-list">PlayStation 5 · Xbox Series X · Switch OLED</p>
+                  <span class="category-cta">Ver <span data-category-count="consolas">3</span> productos
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a class="category-card category-card-game" href="#catalogo" data-filter-link="juegos" data-reveal>
+            <div class="category-card-inner">
+              <div class="category-face category-face-front">
+                <span class="category-num">02</span>
+                <div class="category-copy">
+                  <h3>Juegos</h3>
+                  <p>Mundos enormes, partidas que se quedan.</p>
+                  <span class="category-cta"><span data-category-count="juegos">5</span> productos
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+                <img class="category-image category-image-game" src="assets/img/spider-man-2.webp" alt="" width="600" height="900" loading="lazy">
+              </div>
+              <div class="category-face category-face-back" aria-hidden="true">
+                <span class="category-num">02</span>
+                <div class="category-copy">
+                  <p class="category-back-kicker">En esta categoría</p>
+                  <h3>Juegos</h3>
+                  <p class="category-back-list">Elden Ring · Cyberpunk 2077 · Spider-Man 2</p>
+                  <span class="category-cta">Ver <span data-category-count="juegos">5</span> productos
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a class="category-card category-card-pad" href="#catalogo" data-filter-link="mandos" data-reveal>
+            <div class="category-card-inner">
+              <div class="category-face category-face-front">
+                <span class="category-num">03</span>
+                <div class="category-copy">
+                  <h3>Mandos</h3>
+                  <p>Más control, más precisión, mejor agarre.</p>
+                  <span class="category-cta"><span data-category-count="mandos">3</span> productos
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+                <img class="category-image category-image-pad" src="assets/img/dualsense.webp" alt="" width="1000" height="884" loading="lazy">
+              </div>
+              <div class="category-face category-face-back" aria-hidden="true">
+                <span class="category-num">03</span>
+                <div class="category-copy">
+                  <p class="category-back-kicker">En esta categoría</p>
+                  <h3>Mandos</h3>
+                  <p class="category-back-list">DualSense · Xbox Wireless · Switch Pro</p>
+                  <span class="category-cta">Ver <span data-category-count="mandos">3</span> productos
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a class="category-card category-card-accessory" href="#catalogo" data-filter-link="accesorios" data-reveal>
+            <div class="category-card-inner">
+              <div class="category-face category-face-front">
+                <span class="category-num">04</span>
+                <div class="category-copy">
+                  <h3>Accesorios</h3>
+                  <p>Los detalles que completan el setup.</p>
+                  <span class="category-cta"><span data-category-count="accesorios">1</span> producto
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+                <img class="category-image category-image-accessory" src="assets/img/dualsense-charging.webp" alt="" width="1100" height="619" loading="lazy">
+              </div>
+              <div class="category-face category-face-back" aria-hidden="true">
+                <span class="category-num">04</span>
+                <div class="category-copy">
+                  <p class="category-back-kicker">En esta categoría</p>
+                  <h3>Accesorios</h3>
+                  <p class="category-back-list">Estación de carga DualSense</p>
+                  <span class="category-cta">Ver <span data-category-count="accesorios">1</span> producto
+                    <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="marquee-item">Consolas</span>
+          <span class="marquee-item">Juegos</span>
+          <span class="marquee-item">Mandos</span>
+          <span class="marquee-item">Accesorios</span>
+          <span class="marquee-item">PULSO</span>
+          <span class="marquee-item">Consolas</span>
+          <span class="marquee-item">Juegos</span>
+          <span class="marquee-item">Mandos</span>
+          <span class="marquee-item">Accesorios</span>
+          <span class="marquee-item">PULSO</span>
+        </div>
+        <div class="marquee-group">
+          <span class="marquee-item">Consolas</span>
+          <span class="marquee-item">Juegos</span>
+          <span class="marquee-item">Mandos</span>
+          <span class="marquee-item">Accesorios</span>
+          <span class="marquee-item">PULSO</span>
+          <span class="marquee-item">Consolas</span>
+          <span class="marquee-item">Juegos</span>
+          <span class="marquee-item">Mandos</span>
+          <span class="marquee-item">Accesorios</span>
+          <span class="marquee-item">PULSO</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section catalog-section" id="catalogo" aria-labelledby="catalogo-title">
+      <div class="shell">
+        <div class="section-heading catalog-heading" data-reveal>
+          <div>
+            <p class="section-index">02 / Catálogo</p>
+            <h2 id="catalogo-title">Elige tu próxima compra.</h2>
+          </div>
+          <p class="heading-note">Productos reales. Precios de demostración.</p>
+        </div>
+
+        <div class="catalog-toolbar">
+          <div class="filter-chips" role="group" aria-label="Filtrar por categoría">
+            <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">Todo <span data-filter-count="all">12</span></button>
+            <button class="filter-chip" type="button" data-filter="consolas" aria-pressed="false">Consolas <span data-filter-count="consolas">3</span></button>
+            <button class="filter-chip" type="button" data-filter="juegos" aria-pressed="false">Juegos <span data-filter-count="juegos">5</span></button>
+            <button class="filter-chip" type="button" data-filter="mandos" aria-pressed="false">Mandos <span data-filter-count="mandos">3</span></button>
+            <button class="filter-chip" type="button" data-filter="accesorios" aria-pressed="false">Accesorios <span data-filter-count="accesorios">1</span></button>
+          </div>
+
+          <label class="sort-control" for="sort-select">
+            <span>Ordenar</span>
+            <select id="sort-select">
+              <option value="featured">Selección PULSO</option>
+              <option value="price-asc">Precio: menor a mayor</option>
+              <option value="price-desc">Precio: mayor a menor</option>
+              <option value="name">Nombre A–Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="results-row">
+          <p class="result-count" id="result-count" aria-live="polite">12 productos</p>
+          <a class="back-top" href="#inicio">Volver arriba
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 19V5M6 11l6-6 6 6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="product-grid" id="product-grid"></div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <span class="empty-icon" aria-hidden="true">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
+          </span>
+          <h3>No encontramos nada con ese filtro.</h3>
+          <p>Prueba otra categoría o borra la búsqueda para ver todo el catálogo.</p>
+          <button class="btn btn-primary" id="reset-filters" type="button">Ver todo el catálogo</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature-section" id="mandos" aria-labelledby="feature-title">
+      <div class="shell feature-grid">
+        <div class="feature-visual" data-reveal data-tilt data-tilt-max="3.4">
+          <div class="feature-orbit" aria-hidden="true"></div>
+          <img src="assets/img/dualsense.webp" alt="Mando DualSense blanco y negro para PlayStation 5" width="1000" height="884" loading="lazy">
+          <span class="feature-sticker">Háptico · Adaptativo</span>
+          <span class="feature-caption">DualSense / Blanco</span>
+        </div>
+
+        <div class="feature-copy" data-reveal>
+          <p class="section-index">03 / Siéntelo</p>
+          <h2 id="feature-title">El mando no debería ser el límite.</h2>
+          <p class="feature-lede">DualSense lleva la partida más lejos: respuesta háptica, gatillos adaptativos y un micrófono integrado para que nada te saque del juego.</p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="feature-num">01</span>
+              <span class="feature-text"><strong>Respuesta háptica</strong><span>Siente el terreno, los impactos y la tensión en cada mano.</span></span>
+            </li>
+            <li>
+              <span class="feature-num">02</span>
+              <span class="feature-text"><strong>Gatillos adaptativos</strong><span>Cambia la resistencia según lo que ocurre en pantalla.</span></span>
+            </li>
+            <li>
+              <span class="feature-num">03</span>
+              <span class="feature-text"><strong>Micrófono integrado</strong><span>Chatea sin auriculares cuando quieras, sin pasos extra.</span></span>
+            </li>
+          </ul>
+
+          <a class="btn btn-primary feature-cta" href="#catalogo" data-filter-link="mandos">
+            Ver todos los mandos
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="nota-demo">
+    <div class="shell">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand brand-footer" href="#inicio" aria-label="PULSO, volver al inicio">
+            <span class="brand-mark" aria-hidden="true">P</span>
+            <span class="brand-type"><strong>PULSO</strong><small>Gaming store</small></span>
+          </a>
+          <p>Tu próximo setup empieza con una buena elección.</p>
+        </div>
+
+        <div class="footer-nav">
+          <div>
+            <h2>Tienda</h2>
+            <a href="#catalogo" data-filter-link="consolas">Consolas</a>
+            <a href="#catalogo" data-filter-link="juegos">Juegos</a>
+            <a href="#catalogo" data-filter-link="mandos">Mandos</a>
+            <a href="#catalogo" data-filter-link="accesorios">Accesorios</a>
+          </div>
+          <div>
+            <h2>Esta maqueta</h2>
+            <a href="#catalogo" data-filter-link="all">Catálogo completo</a>
+            <a href="#categorias">Categorías</a>
+            <a href="#mandos">DualSense</a>
+            <a href="#inicio">Inicio</a>
+          </div>
+          <div>
+            <h2>Estado</h2>
+            <p>Prototipo de tienda</p>
+            <p>Sin pagos reales</p>
+            <p>Datos de demostración</p>
+          </div>
+        </div>
+      </div>
+
+      <details class="credits">
+        <summary>Créditos de imagen y notas del prototipo</summary>
+        <div class="credits-body">
+          <p>Maqueta de demostración. PULSO es una marca ficticia; los precios, el stock y el checkout no son reales. Las imágenes se han redimensionado para este proyecto.</p>
+          <p>PlayStation 5: Soberian / Osh33m, <a href="https://commons.wikimedia.org/wiki/File:PlayStation_5_and_DualSense_with_transparent_background.png" target="_blank" rel="noreferrer">Wikimedia Commons</a>, CC BY-SA 4.0. Xbox Series X: Der. Bellemer, <a href="https://commons.wikimedia.org/wiki/File:Xbox_Series_X_2_(transparent_background).png" target="_blank" rel="noreferrer">Wikimedia Commons</a>, CC BY 4.0. Nintendo Switch OLED: Padgriffin, <a href="https://commons.wikimedia.org/wiki/File:Nintendo_Switch_OLED.png" target="_blank" rel="noreferrer">Wikimedia Commons</a>, CC BY-SA 4.0. DualSense: Alex Cochrane, <a href="https://commons.wikimedia.org/wiki/File:Playstation_DualSense_Controller.png" target="_blank" rel="noreferrer">Wikimedia Commons</a>, CC BY-SA 4.0. Switch Pro Controller: Evan-Amos, dominio público. Mando Xbox: imagen oficial de Xbox, uso demostrativo. Estación de carga: imagen oficial de PlayStation, uso demostrativo. Portadas de juegos: arte oficial de sus editores, uso demostrativo.</p>
+        </div>
+      </details>
+
+      <div class="footer-bottom">
+        <p>© 2026 PULSO. Prototipo de tienda.</p>
+        <p>Hecho para jugar. Sin transacciones reales.</p>
+        <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false">
+          <span class="motion-toggle-dot" aria-hidden="true"></span>
+          <span id="motion-toggle-label">Activar animaciones</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="modal-root" id="product-modal" hidden>
+    <div class="modal-scrim" data-close-product></div>
+    <article class="modal-card product-modal-card" role="dialog" aria-modal="true" aria-labelledby="product-modal-title" tabindex="-1">
+      <button class="modal-close" type="button" data-close-product aria-label="Cerrar ficha de producto">
+        <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+
+      <div class="product-modal-media">
+        <span class="product-modal-badge" id="product-modal-badge"></span>
+        <img id="product-modal-image" alt="" width="600" height="900">
+      </div>
+
+      <div class="product-modal-info">
+        <p class="product-modal-kicker" id="product-modal-kicker"></p>
+        <h2 id="product-modal-title"></h2>
+        <p class="product-modal-platform" id="product-modal-platform"></p>
+        <p class="product-modal-price od-nowrap" id="product-modal-price"></p>
+        <p class="product-modal-description" id="product-modal-description"></p>
+
+        <ul class="product-modal-features" id="product-modal-features"></ul>
+
+        <div class="product-modal-buy">
+          <div class="quantity-control" role="group" aria-label="Cantidad">
+            <button type="button" id="modal-qty-minus" aria-label="Reducir cantidad">
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M5 12h14"></path>
+              </svg>
+            </button>
+            <span id="modal-qty" aria-live="polite">1</span>
+            <button type="button" id="modal-qty-plus" aria-label="Aumentar cantidad">
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 5v14M5 12h14"></path>
+              </svg>
+            </button>
+          </div>
+          <button class="btn btn-primary modal-add" id="modal-add" type="button" data-add-modal>
+            Añadir al carrito
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="product-modal-note">Precio con IVA incluido · Envío calculado en el carrito</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="drawer-root" id="cart-root" hidden>
+    <button class="drawer-scrim" type="button" data-close-cart aria-label="Cerrar carrito"></button>
+    <aside class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" tabindex="-1">
+      <header class="cart-head">
+        <div>
+          <p class="section-index">Tu selección</p>
+          <h2 id="cart-title">Carrito <span id="cart-title-count">(0)</span></h2>
+        </div>
+        <button class="modal-close cart-close" type="button" data-close-cart aria-label="Cerrar carrito">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </header>
+
+      <div class="shipping-meter" id="shipping-meter">
+        <p id="shipping-message">Te faltan 49,00 € para el envío gratis.</p>
+        <div class="shipping-track" aria-hidden="true"><span id="shipping-progress"></span></div>
+      </div>
+
+      <div class="cart-scroll">
+        <div class="cart-empty" id="cart-empty">
+          <span class="empty-icon" aria-hidden="true">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5.5 8.5h13l-1 12h-11l-1-12Z"></path>
+              <path d="M9 8.5V6a3 3 0 0 1 6 0v2.5"></path>
+            </svg>
+          </span>
+          <h3>Tu carrito está vacío.</h3>
+          <p>Aún no has añadido nada. El catálogo está a un clic.</p>
+          <button class="btn btn-secondary" type="button" data-close-cart data-shop-now>Ver productos</button>
+        </div>
+        <ul class="cart-list" id="cart-items"></ul>
+      </div>
+
+      <footer class="cart-foot" id="cart-foot">
+        <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal" class="od-nowrap">0,00 €</span></div>
+        <div class="summary-row"><span>Envío</span><span id="cart-shipping" class="od-nowrap">—</span></div>
+        <div class="summary-row summary-total"><span>Total</span><span id="cart-total" class="od-nowrap">0,00 €</span></div>
+        <p class="cart-tax-note">IVA incluido. Envío gratuito desde 49,00 €.</p>
+        <button class="btn btn-primary checkout-button" id="checkout-open" type="button">
+          Tramitar pedido
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </button>
+        <p class="secure-note">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+            <path d="M8 10V8a4 4 0 0 1 8 0v2"></path>
+          </svg>
+          Pago simulado. No se realizará ningún cargo.
+        </p>
+      </footer>
+    </aside>
+  </div>
+
+  <div class="modal-root" id="checkout-modal" hidden>
+    <div class="modal-scrim" data-close-checkout></div>
+    <section class="modal-card checkout-card" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="modal-close" type="button" data-close-checkout aria-label="Cerrar checkout">
+        <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+
+      <div class="checkout-head" id="checkout-head">
+        <p class="section-index">Checkout / demostración</p>
+        <h2 id="checkout-title">Casi es tuyo.</h2>
+        <p>Completa los datos para simular el pedido. No introduzcas información real de pago.</p>
+      </div>
+
+      <div id="checkout-content">
+        <div class="checkout-grid">
+          <form class="checkout-form" id="checkout-form" novalidate>
+            <p class="checkout-required">Todos los campos son obligatorios.</p>
+            <div class="form-errors" id="form-errors" role="alert" hidden>
+              <strong>Revisa estos campos:</strong>
+              <ul id="form-errors-list"></ul>
+            </div>
+
+            <fieldset>
+              <legend>Contacto</legend>
+              <div class="field">
+                <label for="name">Nombre completo <span class="required-mark" aria-hidden="true">*</span></label>
+                <input id="name" name="name" type="text" autocomplete="name" placeholder="Alex Rivera" required>
+                <p class="field-error" id="error-name"></p>
+              </div>
+              <div class="field">
+                <label for="email">Email <span class="required-mark" aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="alex@ejemplo.com" required>
+                <p class="field-error" id="error-email"></p>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Entrega</legend>
+              <div class="field">
+                <label for="address">Dirección <span class="required-mark" aria-hidden="true">*</span></label>
+                <input id="address" name="address" type="text" autocomplete="street-address" placeholder="Calle, número, piso" required>
+                <p class="field-error" id="error-address"></p>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="postal">Código postal <span class="required-mark" aria-hidden="true">*</span></label>
+                  <input id="postal" name="postal" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="28001" required>
+                  <p class="field-error" id="error-postal"></p>
+                </div>
+                <div class="field">
+                  <label for="city">Ciudad <span class="required-mark" aria-hidden="true">*</span></label>
+                  <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="Madrid" required>
+                  <p class="field-error" id="error-city"></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Pago simulado</legend>
+              <p class="field-note">Usa solo datos inventados. Este formulario no procesa pagos.</p>
+              <div class="field">
+                <label for="card">Número de tarjeta <span class="required-mark" aria-hidden="true">*</span></label>
+                <input id="card" name="card" type="text" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="4242 4242 4242 4242" required>
+                <p class="field-error" id="error-card"></p>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="expiry">Caducidad <span class="required-mark" aria-hidden="true">*</span></label>
+                  <input id="expiry" name="expiry" type="text" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/AA" required>
+                  <p class="field-error" id="error-expiry"></p>
+                </div>
+                <div class="field">
+                  <label for="cvc">CVC <span class="required-mark" aria-hidden="true">*</span></label>
+                  <input id="cvc" name="cvc" type="text" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123" required>
+                  <p class="field-error" id="error-cvc"></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <button class="btn btn-primary place-order" id="place-order" type="submit">
+              <span class="button-label">Confirmar pedido de demostración</span>
+              <span class="button-spinner" aria-hidden="true"></span>
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </button>
+          </form>
+
+          <aside class="order-summary" aria-labelledby="order-summary-title">
+            <h3 id="order-summary-title">Tu pedido</h3>
+            <ul class="order-list" id="order-list"></ul>
+            <div class="order-totals">
+              <div class="summary-row"><span>Subtotal</span><span id="order-subtotal" class="od-nowrap">0,00 €</span></div>
+              <div class="summary-row"><span>Envío</span><span id="order-shipping" class="od-nowrap">—</span></div>
+              <div class="summary-row summary-total"><span>Total</span><span id="order-total" class="od-nowrap">0,00 €</span></div>
+            </div>
+            <p class="order-note">Pedido de demostración. No se enviará ningún producto ni se realizará ningún cargo.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="checkout-success" id="checkout-success" hidden>
+        <span class="success-icon" aria-hidden="true">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12 4 4L19 6"></path>
+          </svg>
+        </span>
+        <p class="section-index">Pedido de demostración</p>
+        <h3 id="checkout-success-title" tabindex="-1">Todo listo. Sin cargos.</h3>
+        <p>Tu pedido simulado se ha registrado con la referencia <strong id="order-reference"></strong>. No se ha realizado ningún pago real.</p>
+        <button class="btn btn-primary" id="success-close" type="button">Seguir explorando</button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
