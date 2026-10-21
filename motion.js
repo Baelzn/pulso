@@ -28,6 +28,23 @@
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   /* -------------------------------------------------------------------------
+     Escena 3D bajo demanda
+     Three.js pesa ~670 KB (casi la mitad de la página), así que no se descarga
+     hasta que el movimiento está realmente activo. Con movimiento reducido el
+     hero se queda con su imagen y sus anillos, sin pagar ese peso.
+     ---------------------------------------------------------------------- */
+
+  let hero3dRequested = false;
+
+  function startHero3D() {
+    if (hero3dRequested) return;
+    hero3dRequested = true;
+    import("./hero-3d.js").catch(() => {
+      hero3dRequested = false;
+    });
+  }
+
+  /* -------------------------------------------------------------------------
      Preferencia guardada
      ---------------------------------------------------------------------- */
 
@@ -388,6 +405,7 @@
     } else {
       playHeroTitle();
       staggerCards();
+      startHero3D();
     }
 
     syncToggle();
@@ -446,6 +464,7 @@
     if (motionEnabled()) {
       playHeroTitle();
       staggerCards();
+      startHero3D();
     }
 
     document.addEventListener("pointermove", onPointerMove, { passive: true });

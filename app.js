@@ -217,6 +217,88 @@
     checkoutReturnFocus: null
   };
 
+  /* -------------------------------------------------------------------------
+     Estado en la URL
+     El catálogo y la ficha se pueden compartir y recargar:
+       ?categoria=juegos&q=switch&orden=precio-asc&producto=elden-ring
+     ---------------------------------------------------------------------- */
+
+  const BASE_TITLE = document.title;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  const BASE_DESCRIPTION = metaDescription ? metaDescription.getAttribute("content") : "";
+  const SORT_VALUES = ["featured", "price-asc", "price-desc", "name"];
+
+  // Marca si la ficha abierta añadió una entrada al historial (para cerrarla con back).
+  let productEntryPushed = false;
+
+  function catalogQuery() {
+    const params = new URLSearchParams();
+    if (state.filter !== "all") params.set("categoria", state.filter);
+    const query = state.search.trim();
+    if (query) params.set("q", query);
+    if (state.sort !== "featured") params.set("orden", state.sort);
+    if (state.activeProductId) params.set("producto", state.activeProductId);
+    const search = params.toString();
+    return search ? `?${search}` : "";
+  }
+
+  function syncURL(mode) {
+    if (mode === "none") return false;
+    const next = `${window.location.pathname}${catalogQuery()}${window.location.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (next === current) return false;
+    const record = { pulso: true };
+    if (mode === "push") window.history.pushState(record, "", next);
+    else window.history.replaceState(record, "", next);
+    return true;
+  }
+
+  function readURL() {
+    const params = new URLSearchParams(window.location.search);
+    const filter = params.get("categoria");
+    const sort = params.get("orden");
+    const product = params.get("producto");
+    return {
+      filter: Object.prototype.hasOwnProperty.call(CATEGORY_LABELS, filter) ? filter : "all",
+      search: params.get("q") || "",
+      sort: SORT_VALUES.includes(sort) ? sort : "featured",
+      product: getProduct(product) ? product : null
+    };
+  }
+
+  function applyDocumentMeta(product) {
+    if (product) {
+      document.title = `${product.name} · ${product.categoryLabel} | PULSO`;
+      if (metaDescription) {
+        metaDescription.setAttribute("content", `${product.name} — ${product.description}`);
+      }
+      return;
+    }
+    document.title = BASE_TITLE;
+    if (metaDescription) metaDescription.setAttribute("content", BASE_DESCRIPTION);
+  }
+
+  // Lleva la URL al estado actual de la interfaz.
+  function applyURLState() {
+    const url = readURL();
+    state.filter = url.filter;
+    state.search = url.search;
+    state.sort = url.sort;
+
+    searchInput.value = url.search;
+    searchClear.hidden = url.search.length === 0;
+    sortSelect.value = url.sort;
+
+    updateFilterUI();
+    renderProducts();
+
+    if (url.product && state.activeProductId !== url.product) {
+      openProductModal(url.product, { syncUrl: false });
+    } else if (!url.product && state.activeProductId) {
+      closeProductModal(false, false);
+    }
+  }
+
   const productGrid = document.getElementById("product-grid");
   const emptyState = document.getElementById("empty-state");
   const resultCount = document.getElementById("result-count");
@@ -459,10 +541,15 @@
 
   function applyFilter(filter, options = {}) {
     if (!Object.prototype.hasOwnProperty.call(CATEGORY_LABELS, filter)) return;
+    const changed = state.filter !== filter;
     state.filter = filter;
     updateFilterUI();
     renderProducts();
     closeMenu();
+
+    if (options.url !== "none") {
+      syncURL(options.url === "push" && changed ? "push" : "replace");
+    }
 
     if (options.scroll) {
       document.getElementById("catalogo").scrollIntoView({
@@ -481,6 +568,7 @@
     sortSelect.value = "featured";
     updateFilterUI();
     renderProducts();
+    syncURL("replace");
   }
 
   function addToCart(id, qty = 1) {
@@ -660,14 +748,15 @@
     }, delay);
   }
 
-  function openProductModal(id) {
+  function openProductModal(id, options = {}) {
     const product = getProduct(id);
     if (!product) return;
 
     closeMenu();
     state.activeProductId = id;
     state.modalQty = 1;
-    state.productReturnFocus = document.activeElement;
+    state.productReturnFocus =
+      document.activeElement === document.body ? null : document.activeElement;
     modalQty.textContent = "1";
     productModal.querySelector(".product-modal-media").classList.toggle("product-modal-media--photo", Boolean(product.photo));
 
@@ -688,11 +777,28 @@
     productModal.querySelector(".product-modal-card").scrollTop = 0;
 
     openLayer(productModal, productModal.querySelector(".product-modal-card .modal-close"));
+
+    applyDocumentMeta(product);
+
+    if (options.syncUrl === false) return;
+    productEntryPushed = syncURL("push");
   }
 
-  function closeProductModal(restoreFocus = true) {
+  function closeProductModal(restoreFocus = true, syncUrl = true) {
+    const wasOpen = !productModal.hidden;
     closeLayer(productModal, restoreFocus ? state.productReturnFocus : null);
     state.activeProductId = null;
+    applyDocumentMeta(null);
+
+    if (!syncUrl || !wasOpen) return;
+
+    // Si la ficha añadió una entrada al historial, el botón atrás la cierra.
+    if (productEntryPushed) {
+      productEntryPushed = false;
+      window.history.back();
+      return;
+    }
+    syncURL("replace");
   }
 
   function openCart(returnFocus = cartTrigger) {
@@ -888,12 +994,13 @@
   }
 
   filterChips.forEach((chip) => {
-    chip.addEventListener("click", () => applyFilter(chip.dataset.filter));
+    chip.addEventListener("click", () => applyFilter(chip.dataset.filter, { url: "push" }));
   });
 
   sortSelect.addEventListener("change", () => {
     state.sort = sortSelect.value;
     renderProducts();
+    syncURL("replace");
   });
 
   searchForm.addEventListener("submit", (event) => {
@@ -902,6 +1009,7 @@
     searchClear.hidden = searchInput.value.length === 0;
     closeMenu();
     renderProducts();
+    syncURL("replace");
     document.getElementById("catalogo").scrollIntoView({
       behavior: reducedMotion.matches ? "auto" : "smooth",
       block: "start"
@@ -912,6 +1020,7 @@
     state.search = searchInput.value;
     searchClear.hidden = searchInput.value.length === 0;
     renderProducts();
+    syncURL("replace");
   });
 
   searchClear.addEventListener("click", () => {
@@ -919,6 +1028,7 @@
     state.search = "";
     searchClear.hidden = true;
     renderProducts();
+    syncURL("replace");
     searchInput.focus();
   });
 
@@ -988,7 +1098,7 @@
     if (filterLink) {
       event.preventDefault();
       const filter = filterLink.dataset.filterLink;
-      applyFilter(filter, { scroll: true });
+      applyFilter(filter, { scroll: true, url: "push" });
       const activeChip = filterChips.find((chip) => chip.dataset.filter === filter);
       if (activeChip) activeChip.focus({ preventScroll: true });
       return;
@@ -1124,7 +1234,18 @@
     if (window.innerWidth > 960) closeMenu();
   });
 
-  renderProducts();
+  // Atrás/adelante del navegador reconstruyen catálogo y ficha desde la URL.
+  window.addEventListener("popstate", () => {
+    productEntryPushed = false;
+    applyURLState();
+  });
+
+  applyURLState();
   renderCart();
-  updateFilterUI();
+
+  // Un enlace con filtro o búsqueda debe aterrizar en el catálogo, no en el hero.
+  const incoming = readURL();
+  if (!incoming.product && (incoming.filter !== "all" || incoming.search)) {
+    document.getElementById("catalogo").scrollIntoView({ behavior: "auto", block: "start" });
+  }
 })();
