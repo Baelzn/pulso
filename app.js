@@ -226,6 +226,14 @@
   const BASE_DESCRIPTION = metaDescription ? metaDescription.getAttribute("content") : "";
   const SORT_VALUES = ["featured", "price-asc", "price-desc", "name"];
 
+  // Las mismas etiquetas sociales que actualiza applyDocumentMeta al abrir una ficha.
+  const socialMeta = {
+    ogTitle: document.querySelector('meta[property="og:title"]'),
+    ogDescription: document.querySelector('meta[property="og:description"]'),
+    twitterTitle: document.querySelector('meta[name="twitter:title"]'),
+    twitterDescription: document.querySelector('meta[name="twitter:description"]')
+  };
+
   // Marca si la ficha abierta añadió una entrada al historial (para cerrarla con back).
   let productEntryPushed = false;
 
@@ -264,16 +272,27 @@
     };
   }
 
+  function setMetaContent(node, value) {
+    if (node) node.setAttribute("content", value);
+  }
+
   function applyDocumentMeta(product) {
-    if (product) {
-      document.title = `${product.name} · ${product.categoryLabel} | PULSO`;
-      if (metaDescription) {
-        metaDescription.setAttribute("content", `${product.name} — ${product.description}`);
-      }
-      return;
-    }
-    document.title = BASE_TITLE;
-    if (metaDescription) metaDescription.setAttribute("content", BASE_DESCRIPTION);
+    const title = product
+      ? `${product.name} · ${product.categoryLabel} | PULSO`
+      : BASE_TITLE;
+    const description = product
+      ? `${product.name} — ${product.description}`
+      : BASE_DESCRIPTION;
+
+    document.title = title;
+    setMetaContent(metaDescription, description);
+
+    // Sirve para las previsualizaciones que sí ejecutan JavaScript; los rastreadores
+    // de WhatsApp/X/Telegram se quedan con las etiquetas estáticas del HTML.
+    setMetaContent(socialMeta.ogTitle, title);
+    setMetaContent(socialMeta.ogDescription, description);
+    setMetaContent(socialMeta.twitterTitle, title);
+    setMetaContent(socialMeta.twitterDescription, description);
   }
 
   // Lleva la URL al estado actual de la interfaz.

@@ -1,0 +1,7 @@
+# PULSO — tienda de demostración
+# Dominio de ejemplo: cambia la URL del sitemap al publicar.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pulso.example/sitemap.xml
