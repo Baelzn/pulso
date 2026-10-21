@@ -42,8 +42,8 @@
       badge: "Imprescindible",
       image: "assets/img/elden-ring.webp",
       alt: "Portada de Elden Ring",
-      width: 600,
-      height: 900,
+      width: 632,
+      height: 1014,
       description: "El mundo abierto de FromSoftware: explora las Tierras Intermedias a tu manera y enfrenta a sus jefes legendarios.",
       features: ["Mundo abierto", "RPG de acción", "Modo un jugador y online"]
     },
@@ -72,8 +72,8 @@
       badge: "Edición completa",
       image: "assets/img/cyberpunk-2077.webp",
       alt: "Portada de Cyberpunk 2077 Ultimate Edition",
-      width: 600,
-      height: 900,
+      width: 632,
+      height: 1014,
       description: "Night City, la expansión Phantom Liberty y todas las mejoras de la versión 2.0 en una sola edición.",
       features: ["Incluye Phantom Liberty", "Versión 2.0", "RPG de mundo abierto"]
     },
@@ -89,7 +89,6 @@
       alt: "Mando inalámbrico Xbox en color negro, visto por delante y por detrás",
       width: 1000,
       height: 562,
-      photo: true,
       description: "Grip texturizado, D-pad híbrido y conexión inalámbrica con consola, PC y dispositivos móviles.",
       features: ["D-pad híbrido", "Grip texturizado", "Bluetooth"]
     },
@@ -118,8 +117,8 @@
       badge: "Aclamado",
       image: "assets/img/baldurs-gate-3.webp",
       alt: "Portada de Baldur's Gate 3",
-      width: 600,
-      height: 900,
+      width: 632,
+      height: 1014,
       description: "Un RPG por turnos enorme donde cada decisión cambia la historia, el mundo y a quienes te acompañan.",
       features: ["RPG por turnos", "Cooperativo", "Decisiones ramificadas"]
     },
@@ -135,7 +134,6 @@
       alt: "Mando Pro Controller negro para Nintendo Switch",
       width: 1000,
       height: 778,
-      photo: true,
       description: "El mando tradicional de Switch: sticks grandes, HD Rumble y una batería pensada para sesiones largas.",
       features: ["HD Rumble", "Sticks de tamaño completo", "Batería de larga duración"]
     },
@@ -149,8 +147,8 @@
       badge: "",
       image: "assets/img/forza-horizon-5.webp",
       alt: "Portada de Forza Horizon 5",
-      width: 600,
-      height: 900,
+      width: 632,
+      height: 1014,
       description: "Recorre un México de mundo abierto con más de 500 coches, eventos y rutas para cualquier estilo de conducción.",
       features: ["Mundo abierto", "Más de 500 coches", "4K HDR"]
     },
@@ -164,8 +162,8 @@
       badge: "",
       image: "assets/img/spider-man-2.webp",
       alt: "Portada de Marvel's Spider-Man 2",
-      width: 600,
-      height: 900,
+      width: 632,
+      height: 1014,
       description: "Peter y Miles se enfrentan a Veneno en una Nueva York más grande, con nuevas habilidades y desplazamientos.",
       features: ["Peter y Miles", "Veneno", "Nueva York ampliada"]
     },
@@ -509,7 +507,7 @@
 
     return `
       <article class="product-card" data-product-card="${product.id}">
-        <div class="product-media${isGame ? " product-media-game" : ""}${product.photo ? " product-media-photo" : ""}">
+        <div class="product-media${isGame ? " product-media-game" : ""}">
           ${badge}
           <button class="product-media-button" type="button" data-open-product="${product.id}">
             <img class="product-image" src="${product.image}" alt="${escapeHTML(product.alt)}" width="${product.width}" height="${product.height}" loading="lazy" decoding="async">
@@ -645,7 +643,7 @@
     cartItems.innerHTML = lines
       .map(({ product, qty }) => `
         <li class="cart-item" data-cart-item="${product.id}">
-          <div class="cart-item-media${product.photo ? " cart-item-media-photo" : ""}">
+          <div class="cart-item-media">
             <img src="${product.image}" alt="" width="${product.width}" height="${product.height}" loading="lazy">
           </div>
           <div class="cart-item-copy">
@@ -758,7 +756,6 @@
     state.productReturnFocus =
       document.activeElement === document.body ? null : document.activeElement;
     modalQty.textContent = "1";
-    productModal.querySelector(".product-modal-media").classList.toggle("product-modal-media--photo", Boolean(product.photo));
 
     productModalImage.src = product.image;
     productModalImage.alt = product.alt;

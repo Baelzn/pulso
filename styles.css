@@ -1225,6 +1225,13 @@ a {
   padding: 15px 36px;
 }
 
+/* En los juegos la franja de plataforma va arriba a la izquierda: la
+   etiqueta se mueve a la derecha para no taparla. */
+.product-media-game .product-badge {
+  left: auto;
+  right: 11px;
+}
+
 .product-image {
   width: 100%;
   height: 100%;
@@ -1235,14 +1242,6 @@ a {
 
 .product-media-game .product-image {
   filter: drop-shadow(0 16px 20px rgba(7, 10, 8, 0.24));
-}
-
-.product-media-photo {
-  background: #f5f6f2;
-}
-
-.product-media-photo .product-image {
-  mix-blend-mode: multiply;
 }
 
 .product-card:hover .product-image {
@@ -1812,14 +1811,6 @@ a {
   filter: drop-shadow(0 24px 25px rgba(7, 10, 8, 0.2));
 }
 
-.product-modal-media--photo {
-  background: #f5f6f2;
-}
-
-.product-modal-media--photo img {
-  mix-blend-mode: multiply;
-}
-
 .product-modal-badge {
   position: absolute;
   top: 20px;
@@ -2115,14 +2106,6 @@ a {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-.cart-item-media-photo {
-  background: #f5f6f2;
-}
-
-.cart-item-media-photo img {
-  mix-blend-mode: multiply;
 }
 
 .cart-item-copy {
