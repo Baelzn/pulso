@@ -9,6 +9,8 @@
       categoryLabel: "Consola",
       platform: "PS5",
       price: 499.99,
+      rating: 4.8,
+      reviews: 412,
       badge: "Destacado",
       image: "assets/img/ps5.webp",
       alt: "PlayStation 5 vertical con mando DualSense",
@@ -24,6 +26,8 @@
       categoryLabel: "Mando",
       platform: "PS5 · PC",
       price: 69.99,
+      rating: 4.7,
+      reviews: 638,
       badge: "Favorito",
       image: "assets/img/dualsense.webp",
       alt: "Mando DualSense blanco y negro",
@@ -39,6 +43,8 @@
       categoryLabel: "Juego",
       platform: "PS5 · Xbox · PC",
       price: 49.99,
+      rating: 4.9,
+      reviews: 1204,
       badge: "Imprescindible",
       image: "assets/img/elden-ring.webp",
       alt: "Portada de Elden Ring",
@@ -54,6 +60,8 @@
       categoryLabel: "Consola",
       platform: "Xbox Series X",
       price: 499.99,
+      rating: 4.7,
+      reviews: 287,
       badge: "Potencia",
       image: "assets/img/xbox-series-x.webp",
       alt: "Xbox Series X vertical con mando inalámbrico",
@@ -69,6 +77,8 @@
       categoryLabel: "Juego",
       platform: "PS5 · Xbox · PC",
       price: 59.99,
+      rating: 4.4,
+      reviews: 903,
       badge: "Edición completa",
       image: "assets/img/cyberpunk-2077.webp",
       alt: "Portada de Cyberpunk 2077 Ultimate Edition",
@@ -84,6 +94,8 @@
       categoryLabel: "Mando",
       platform: "Xbox · PC",
       price: 59.99,
+      rating: 4.6,
+      reviews: 741,
       badge: "",
       image: "assets/img/xbox-controller.webp",
       alt: "Mando inalámbrico Xbox en color negro, visto por delante y por detrás",
@@ -99,6 +111,8 @@
       categoryLabel: "Consola",
       platform: "Nintendo Switch",
       price: 319.99,
+      rating: 4.8,
+      reviews: 356,
       badge: "Portátil",
       image: "assets/img/switch-oled.webp",
       alt: "Nintendo Switch OLED con Joy-Con blancos",
@@ -114,6 +128,8 @@
       categoryLabel: "Juego",
       platform: "PS5 · Xbox · PC",
       price: 59.99,
+      rating: 4.9,
+      reviews: 1587,
       badge: "Aclamado",
       image: "assets/img/baldurs-gate-3.webp",
       alt: "Portada de Baldur's Gate 3",
@@ -129,6 +145,8 @@
       categoryLabel: "Mando",
       platform: "Nintendo Switch",
       price: 64.99,
+      rating: 4.7,
+      reviews: 512,
       badge: "",
       image: "assets/img/switch-pro.webp",
       alt: "Mando Pro Controller negro para Nintendo Switch",
@@ -144,6 +162,8 @@
       categoryLabel: "Juego",
       platform: "Xbox · PC",
       price: 49.99,
+      rating: 4.6,
+      reviews: 688,
       badge: "",
       image: "assets/img/forza-horizon-5.webp",
       alt: "Portada de Forza Horizon 5",
@@ -159,6 +179,8 @@
       categoryLabel: "Juego",
       platform: "PS5",
       price: 69.99,
+      rating: 4.8,
+      reviews: 934,
       badge: "",
       image: "assets/img/spider-man-2.webp",
       alt: "Portada de Marvel's Spider-Man 2",
@@ -174,12 +196,13 @@
       categoryLabel: "Accesorio",
       platform: "PS5",
       price: 29.99,
+      rating: 4.3,
+      reviews: 176,
       badge: "",
       image: "assets/img/dualsense-charging.webp",
       alt: "Estación de carga oficial para dos mandos DualSense",
       width: 1100,
       height: 619,
-      photo: true,
       description: "Carga dos mandos DualSense a la vez sin ocupar los puertos USB de la consola.",
       features: ["Carga dos mandos", "Base estable", "Sin ocupar puertos USB"]
     }
@@ -190,10 +213,12 @@
     consolas: "Consolas",
     juegos: "Juegos",
     mandos: "Mandos",
-    accesorios: "Accesorios"
+    accesorios: "Accesorios",
+    favoritos: "Favoritos"
   };
 
   const STORAGE_KEY = "pulso-cart-v1";
+  const FAVS_KEY = "pulso-favs-v1";
   const SHIPPING_THRESHOLD = 49;
   const SHIPPING_COST = 4.95;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -208,6 +233,7 @@
     search: "",
     sort: "featured",
     cart: loadCart(),
+    favorites: loadFavorites(),
     activeProductId: null,
     modalQty: 1,
     productReturnFocus: null,
@@ -224,7 +250,7 @@
   const BASE_TITLE = document.title;
   const metaDescription = document.querySelector('meta[name="description"]');
   const BASE_DESCRIPTION = metaDescription ? metaDescription.getAttribute("content") : "";
-  const SORT_VALUES = ["featured", "price-asc", "price-desc", "name"];
+  const SORT_VALUES = ["featured", "rating", "price-asc", "price-desc", "name"];
 
   // Las mismas etiquetas sociales que actualiza applyDocumentMeta al abrir una ficha.
   const socialMeta = {
@@ -318,6 +344,8 @@
 
   const productGrid = document.getElementById("product-grid");
   const emptyState = document.getElementById("empty-state");
+  const emptyTitle = document.getElementById("empty-title");
+  const emptyText = document.getElementById("empty-text");
   const resultCount = document.getElementById("result-count");
   const filterChips = Array.from(document.querySelectorAll(".filter-chip"));
   const sortSelect = document.getElementById("sort-select");
@@ -339,6 +367,10 @@
   const productModalPrice = document.getElementById("product-modal-price");
   const productModalDescription = document.getElementById("product-modal-description");
   const productModalFeatures = document.getElementById("product-modal-features");
+  const productModalThumbs = document.getElementById("product-modal-thumbs");
+  const productModalRating = document.getElementById("product-modal-rating");
+  const productRelatedList = document.getElementById("product-related-list");
+  const modalFav = document.getElementById("modal-fav");
   const modalQty = document.getElementById("modal-qty");
   const modalAdd = document.getElementById("modal-add");
   const cartRoot = document.getElementById("cart-root");
@@ -376,7 +408,9 @@
     arrow: '<path d="M5 12h14M13 6l6 6-6 6"></path>',
     close: '<path d="m6 6 12 12M18 6 6 18"></path>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"></path>',
-    trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path>'
+    trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path>',
+    heart:
+      '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21.2l7.8-7.8 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"></path>'
   };
 
   let toastTimer = 0;
@@ -406,6 +440,94 @@
 
   function getProduct(id) {
     return PRODUCTS.find((product) => product.id === id);
+  }
+
+  // Cada producto tiene una segunda vista en assets/img/<id>-detalle.webp.
+  function productViews(product) {
+    return [
+      {
+        src: product.image,
+        alt: product.alt,
+        width: product.width,
+        height: product.height,
+        label: "Vista general"
+      },
+      {
+        src: `assets/img/${product.id}-detalle.webp`,
+        alt: `Detalle de ${product.name}`,
+        width: 700,
+        height: 700,
+        label: "Detalle"
+      }
+    ];
+  }
+
+  function ratingText(value) {
+    return Number(value).toFixed(1).replace(".", ",");
+  }
+
+  function starIcon(size = 12) {
+    return `<svg class="star" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true"><path d="M12 3.6l2.7 5.5 6 .9-4.35 4.24 1.03 6L12 17.4l-5.38 2.83 1.03-6L3.3 10l6-.9L12 3.6Z"></path></svg>`;
+  }
+
+  function loadFavorites() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(FAVS_KEY) || "[]");
+      if (!Array.isArray(saved)) return [];
+      return [...new Set(saved.map(String))].filter((id) =>
+        PRODUCTS.some((product) => product.id === id)
+      );
+    } catch {
+      return [];
+    }
+  }
+
+  function saveFavorites() {
+    try {
+      localStorage.setItem(FAVS_KEY, JSON.stringify(state.favorites));
+    } catch {
+      return;
+    }
+  }
+
+  function isFavorite(id) {
+    return state.favorites.includes(id);
+  }
+
+  function updateFavButtons() {
+    document.querySelectorAll("[data-fav]").forEach((button) => {
+      const id = button.dataset.fav;
+      const saved = isFavorite(id);
+      const product = getProduct(id);
+      button.setAttribute("aria-pressed", String(saved));
+      if (product) {
+        button.setAttribute(
+          "aria-label",
+          saved ? `Quitar ${product.name} de favoritos` : `Guardar ${product.name} en favoritos`
+        );
+      }
+    });
+  }
+
+  function toggleFavorite(id) {
+    const product = getProduct(id);
+    if (!product) return;
+
+    const index = state.favorites.indexOf(id);
+    if (index >= 0) {
+      state.favorites.splice(index, 1);
+      showToast(`${product.name} fuera de favoritos`);
+    } else {
+      state.favorites.push(id);
+      showToast(`${product.name} guardado en favoritos`);
+    }
+
+    saveFavorites();
+    updateFavButtons();
+    updateFavoriteChip();
+
+    // Si estamos viendo la lista de favoritos, hay que volver a pintarla.
+    if (state.filter === "favoritos") renderProducts();
   }
 
   function loadCart() {
@@ -475,17 +597,23 @@
   function renderProducts() {
     const query = normalize(state.search);
     let visible = PRODUCTS.filter((product) => {
-      const matchesCategory = state.filter === "all" || product.category === state.filter;
+      const matchesFilter =
+        state.filter === "all" ||
+        (state.filter === "favoritos"
+          ? isFavorite(product.id)
+          : product.category === state.filter);
       const haystack = normalize(
         `${product.name} ${product.categoryLabel} ${product.platform} ${product.description}`
       );
-      return matchesCategory && (!query || haystack.includes(query));
+      return matchesFilter && (!query || haystack.includes(query));
     });
 
     if (state.sort === "price-asc") {
       visible = visible.slice().sort((a, b) => a.price - b.price);
     } else if (state.sort === "price-desc") {
       visible = visible.slice().sort((a, b) => b.price - a.price);
+    } else if (state.sort === "rating") {
+      visible = visible.slice().sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     } else if (state.sort === "name") {
       visible = visible.slice().sort((a, b) => a.name.localeCompare(b.name, "es"));
     }
@@ -498,14 +626,33 @@
     productGrid.innerHTML = visible.map(productCard).join("");
     emptyState.hidden = visible.length !== 0;
 
+    if (!emptyState.hidden) {
+      if (state.filter === "favoritos" && state.favorites.length === 0) {
+        emptyTitle.textContent = "Todavía no has guardado nada.";
+        emptyText.textContent =
+          "Pulsa el corazón de cualquier producto y lo encontrarás aquí cuando vuelvas.";
+      } else if (state.filter === "favoritos") {
+        emptyTitle.textContent = "Ninguno de tus favoritos coincide.";
+        emptyText.textContent = "Borra la búsqueda o cambia de categoría para verlos todos.";
+      } else if (query) {
+        emptyTitle.textContent = "No encontramos nada con esa búsqueda.";
+        emptyText.textContent =
+          "Prueba con otro nombre o borra la búsqueda para ver todo el catálogo.";
+      } else {
+        emptyTitle.textContent = "No encontramos nada con ese filtro.";
+        emptyText.textContent = "Prueba otra categoría para ver todo el catálogo.";
+      }
+    }
+
     const counts = PRODUCTS.reduce(
       (acc, product) => {
         acc.all += 1;
         acc[product.category] += 1;
         return acc;
       },
-      { all: 0, consolas: 0, juegos: 0, mandos: 0, accesorios: 0 }
+      { all: 0, consolas: 0, juegos: 0, mandos: 0, accesorios: 0, favoritos: 0 }
     );
+    counts.favoritos = state.favorites.length;
 
     document.querySelectorAll("[data-filter-count]").forEach((node) => {
       const key = node.dataset.filterCount;
@@ -523,6 +670,10 @@
     const badge = product.badge
       ? `<span class="product-badge">${escapeHTML(product.badge)}</span>`
       : "";
+    const saved = isFavorite(product.id);
+    const favLabel = `${saved ? "Quitar" : "Guardar"} ${product.name} ${
+      saved ? "de" : "en"
+    } favoritos`;
 
     return `
       <article class="product-card" data-product-card="${product.id}">
@@ -531,11 +682,17 @@
           <button class="product-media-button" type="button" data-open-product="${product.id}">
             <img class="product-image" src="${product.image}" alt="${escapeHTML(product.alt)}" width="${product.width}" height="${product.height}" loading="lazy" decoding="async">
           </button>
+          <button class="fav-btn" type="button" data-fav="${product.id}" aria-pressed="${saved}" aria-label="${escapeHTML(favLabel)}">
+            ${icon("heart", 16)}
+          </button>
         </div>
         <div class="product-body">
           <p class="product-kicker">${escapeHTML(product.categoryLabel)}</p>
           <h3 class="product-title"><button type="button" data-open-product="${product.id}">${escapeHTML(product.name)}</button></h3>
-          <p class="product-platform"><span>${escapeHTML(product.platform)}</span></p>
+          <div class="product-meta">
+            <p class="product-platform"><span>${escapeHTML(product.platform)}</span></p>
+            <p class="product-rating">${starIcon(11)}<span>${ratingText(product.rating)}</span></p>
+          </div>
           <div class="product-bottom">
             <p class="product-price"><strong>${money.format(product.price)}</strong><span>IVA incluido</span></p>
             <button class="add-btn" type="button" data-add-to-cart="${product.id}" aria-label="Añadir ${escapeHTML(product.name)} al carrito">
@@ -548,12 +705,22 @@
     `;
   }
 
+  function updateFavoriteChip() {
+    const chip = filterChips.find((node) => node.dataset.filter === "favoritos");
+    if (!chip) return;
+    const badge = chip.querySelector("[data-filter-count]");
+    if (badge) badge.textContent = String(state.favorites.length);
+    // Se esconde mientras no haya favoritos, salvo que el filtro activo sea este.
+    chip.hidden = state.favorites.length === 0 && state.filter !== "favoritos";
+  }
+
   function updateFilterUI() {
     filterChips.forEach((chip) => {
       const active = chip.dataset.filter === state.filter;
       chip.classList.toggle("is-active", active);
       chip.setAttribute("aria-pressed", String(active));
     });
+    updateFavoriteChip();
   }
 
   function applyFilter(filter, options = {}) {
@@ -765,6 +932,67 @@
     }, delay);
   }
 
+  let galleryViews = [];
+
+  function showGalleryView(view) {
+    productModalImage.src = view.src;
+    productModalImage.alt = view.alt;
+    productModalImage.width = view.width;
+    productModalImage.height = view.height;
+  }
+
+  function renderGallery(product) {
+    galleryViews = productViews(product);
+    productModalThumbs.innerHTML = galleryViews
+      .map(
+        (view, index) => `
+        <button class="gallery-thumb" type="button" data-view="${index}" aria-pressed="${index === 0}" aria-label="${escapeHTML(view.label)}">
+          <img src="${view.src}" alt="" width="60" height="60" decoding="async">
+        </button>`
+      )
+      .join("");
+    showGalleryView(galleryViews[0]);
+  }
+
+  function renderRating(product) {
+    const count = new Intl.NumberFormat("es-ES").format(product.reviews);
+    const percent = Math.max(0, Math.min(100, (product.rating / 5) * 100));
+    const text = ratingText(product.rating);
+
+    productModalRating.innerHTML = `
+      <span class="sr-only">Valoración ${text} de 5, ${count} valoraciones</span>
+      <span class="stars" aria-hidden="true">
+        <span class="stars-empty">★★★★★</span>
+        <span class="stars-fill" style="width:${percent}%">★★★★★</span>
+      </span>
+      <span class="product-modal-rating-text" aria-hidden="true"><strong>${text}</strong> · ${count} valoraciones</span>
+    `;
+  }
+
+  function renderRelated(product) {
+    // Primero los de la misma categoría, ordenados por valoración.
+    const related = PRODUCTS.filter((item) => item.id !== product.id)
+      .sort((a, b) => {
+        const sameA = a.category === product.category ? 1 : 0;
+        const sameB = b.category === product.category ? 1 : 0;
+        return sameB - sameA || b.rating - a.rating;
+      })
+      .slice(0, 3);
+
+    productRelatedList.innerHTML = related
+      .map(
+        (item) => `
+        <button class="related-card" type="button" data-open-product="${item.id}">
+          <span class="related-media"><img src="${item.image}" alt="" width="54" height="54" decoding="async"></span>
+          <span class="related-body">
+            <span class="related-name">${escapeHTML(item.name)}</span>
+            <span class="related-price">${money.format(item.price)}</span>
+          </span>
+        </button>`
+      )
+      .join("");
+  }
+
   function openProductModal(id, options = {}) {
     const product = getProduct(id);
     if (!product) return;
@@ -776,10 +1004,12 @@
       document.activeElement === document.body ? null : document.activeElement;
     modalQty.textContent = "1";
 
-    productModalImage.src = product.image;
-    productModalImage.alt = product.alt;
-    productModalImage.width = product.width;
-    productModalImage.height = product.height;
+    renderGallery(product);
+    renderRating(product);
+    renderRelated(product);
+    modalFav.dataset.fav = product.id;
+    updateFavButtons();
+
     productModalBadge.textContent = product.badge;
     productModalBadge.hidden = !product.badge;
     productModalKicker.textContent = product.categoryLabel;
@@ -1090,6 +1320,17 @@
     }, 250);
   });
 
+  productModalThumbs.addEventListener("click", (event) => {
+    const thumb = event.target.closest(".gallery-thumb");
+    if (!thumb) return;
+    const view = galleryViews[Number(thumb.dataset.view)];
+    if (!view) return;
+    showGalleryView(view);
+    productModalThumbs.querySelectorAll(".gallery-thumb").forEach((node) => {
+      node.setAttribute("aria-pressed", String(node === thumb));
+    });
+  });
+
   document.getElementById("modal-qty-minus").addEventListener("click", () => {
     state.modalQty = Math.max(1, state.modalQty - 1);
     modalQty.textContent = String(state.modalQty);
@@ -1117,6 +1358,12 @@
       applyFilter(filter, { scroll: true, url: "push" });
       const activeChip = filterChips.find((chip) => chip.dataset.filter === filter);
       if (activeChip) activeChip.focus({ preventScroll: true });
+      return;
+    }
+
+    const favButton = event.target.closest("[data-fav]");
+    if (favButton) {
+      toggleFavorite(favButton.dataset.fav);
       return;
     }
 

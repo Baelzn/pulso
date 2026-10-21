@@ -86,6 +86,13 @@
                 "@type": "Brand",
                 "name": "Sony"
               },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": 412,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
               "offers": {
                 "@type": "Offer",
                 "url": "https://pulso.example/?producto=ps5",
@@ -109,6 +116,13 @@
               "brand": {
                 "@type": "Brand",
                 "name": "Sony"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": 638,
+                "bestRating": "5",
+                "worstRating": "1"
               },
               "offers": {
                 "@type": "Offer",
@@ -134,6 +148,13 @@
                 "@type": "Brand",
                 "name": "FromSoftware"
               },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 1204,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
               "offers": {
                 "@type": "Offer",
                 "url": "https://pulso.example/?producto=elden-ring",
@@ -157,6 +178,13 @@
               "brand": {
                 "@type": "Brand",
                 "name": "Microsoft"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": 287,
+                "bestRating": "5",
+                "worstRating": "1"
               },
               "offers": {
                 "@type": "Offer",
@@ -182,6 +210,13 @@
                 "@type": "Brand",
                 "name": "CD Projekt"
               },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.4",
+                "reviewCount": 903,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
               "offers": {
                 "@type": "Offer",
                 "url": "https://pulso.example/?producto=cyberpunk-2077",
@@ -205,6 +240,13 @@
               "brand": {
                 "@type": "Brand",
                 "name": "Microsoft"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.6",
+                "reviewCount": 741,
+                "bestRating": "5",
+                "worstRating": "1"
               },
               "offers": {
                 "@type": "Offer",
@@ -230,6 +272,13 @@
                 "@type": "Brand",
                 "name": "Nintendo"
               },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": 356,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
               "offers": {
                 "@type": "Offer",
                 "url": "https://pulso.example/?producto=switch-oled",
@@ -253,6 +302,13 @@
               "brand": {
                 "@type": "Brand",
                 "name": "Larian Studios"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 1587,
+                "bestRating": "5",
+                "worstRating": "1"
               },
               "offers": {
                 "@type": "Offer",
@@ -278,6 +334,13 @@
                 "@type": "Brand",
                 "name": "Nintendo"
               },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": 512,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
               "offers": {
                 "@type": "Offer",
                 "url": "https://pulso.example/?producto=switch-pro",
@@ -301,6 +364,13 @@
               "brand": {
                 "@type": "Brand",
                 "name": "Xbox Game Studios"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.6",
+                "reviewCount": 688,
+                "bestRating": "5",
+                "worstRating": "1"
               },
               "offers": {
                 "@type": "Offer",
@@ -326,6 +396,13 @@
                 "@type": "Brand",
                 "name": "Insomniac Games"
               },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": 934,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
               "offers": {
                 "@type": "Offer",
                 "url": "https://pulso.example/?producto=spider-man-2",
@@ -349,6 +426,13 @@
               "brand": {
                 "@type": "Brand",
                 "name": "Sony"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.3",
+                "reviewCount": 176,
+                "bestRating": "5",
+                "worstRating": "1"
               },
               "offers": {
                 "@type": "Offer",
@@ -727,12 +811,19 @@
             <button class="filter-chip" type="button" data-filter="juegos" aria-pressed="false">Juegos <span data-filter-count="juegos">5</span></button>
             <button class="filter-chip" type="button" data-filter="mandos" aria-pressed="false">Mandos <span data-filter-count="mandos">3</span></button>
             <button class="filter-chip" type="button" data-filter="accesorios" aria-pressed="false">Accesorios <span data-filter-count="accesorios">1</span></button>
+            <button class="filter-chip filter-chip-fav" type="button" data-filter="favoritos" aria-pressed="false" hidden>
+              <svg class="filter-chip-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21.2l7.8-7.8 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"></path>
+              </svg>
+              Favoritos <span data-filter-count="favoritos">0</span>
+            </button>
           </div>
 
           <label class="sort-control" for="sort-select">
             <span>Ordenar</span>
             <select id="sort-select">
               <option value="featured">Selección PULSO</option>
+              <option value="rating">Mejor valorados</option>
               <option value="price-asc">Precio: menor a mayor</option>
               <option value="price-desc">Precio: mayor a menor</option>
               <option value="name">Nombre A–Z</option>
@@ -758,8 +849,8 @@
               <path d="m20 20-3.5-3.5"></path>
             </svg>
           </span>
-          <h3>No encontramos nada con ese filtro.</h3>
-          <p>Prueba otra categoría o borra la búsqueda para ver todo el catálogo.</p>
+          <h3 id="empty-title">No encontramos nada con ese filtro.</h3>
+          <p id="empty-text">Prueba otra categoría o borra la búsqueda para ver todo el catálogo.</p>
           <button class="btn btn-primary" id="reset-filters" type="button">Ver todo el catálogo</button>
         </div>
       </div>
@@ -872,13 +963,19 @@
 
       <div class="product-modal-media">
         <span class="product-modal-badge" id="product-modal-badge"></span>
-        <img id="product-modal-image" alt="" width="600" height="900">
+        <div class="product-gallery">
+          <div class="product-gallery-stage">
+            <img id="product-modal-image" alt="" width="600" height="900">
+          </div>
+          <div class="product-gallery-thumbs" id="product-modal-thumbs" role="group" aria-label="Vistas del producto"></div>
+        </div>
       </div>
 
       <div class="product-modal-info">
         <p class="product-modal-kicker" id="product-modal-kicker"></p>
         <h2 id="product-modal-title"></h2>
         <p class="product-modal-platform" id="product-modal-platform"></p>
+        <p class="product-modal-rating" id="product-modal-rating"></p>
         <p class="product-modal-price od-nowrap" id="product-modal-price"></p>
         <p class="product-modal-description" id="product-modal-description"></p>
 
@@ -904,9 +1001,19 @@
               <path d="M5 12h14M13 6l6 6-6 6"></path>
             </svg>
           </button>
+          <button class="modal-fav" id="modal-fav" type="button" aria-pressed="false" aria-label="Guardar en favoritos">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21.2l7.8-7.8 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"></path>
+            </svg>
+          </button>
         </div>
         <p class="product-modal-note">Precio con IVA incluido · Envío calculado en el carrito</p>
       </div>
+
+      <section class="product-related" aria-labelledby="product-related-title">
+        <h3 id="product-related-title">También te puede interesar</h3>
+        <div class="product-related-list" id="product-related-list"></div>
+      </section>
     </article>
   </div>
 
