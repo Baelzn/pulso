@@ -27,7 +27,10 @@ El catálogo y la ficha viven en la URL, así que se pueden compartir y recargar
 | `?q=elden` | Aplica la búsqueda |
 | `?orden=rating` | Ordena (`featured`, `rating`, `price-asc`, `price-desc`, `name`) |
 | `?producto=ps5` | Abre la ficha del producto |
+| `?carrito=1` | Abre el carrito (lo usan las páginas de producto) |
 | `?categoria=mandos&orden=name&producto=dualsense` | Todo combinado |
+
+Cada producto tiene además su propia página: `p/ps5.html`, `p/elden-ring.html`…
 
 Los filtros y la búsqueda se sincronizan con `history.replaceState` / `pushState`, y
 atrás/adelante reconstruyen el estado. Abrir una ficha añade una entrada al historial:
@@ -42,11 +45,41 @@ motion.css          Capas de movimiento: reveals, tilt, parallax, flip 3D, marqu
 app.js              Datos de producto, filtros, búsqueda, carrito, checkout y rutas
 motion.js           Motor de movimiento y carga bajo demanda de la escena 3D
 hero-3d.js          Escena Three.js del hero
+product-page.js     Carrito y galería de las páginas de producto
+p/                  Una página estática por producto (generadas)
+tools/              Scripts que generan el JSON-LD, las páginas y el sitemap
 assets/img/         Imágenes WebP (originales en `_source/`)
+assets/img/compartir/  Tarjetas 1200×630 para compartir cada producto
 assets/vendor/      Three.js r169 (MIT)
 sitemap.xml         Mapa del sitio
 robots.txt          Reglas para rastreadores
 ```
+
+## Páginas de producto
+
+`p/<id>.html` es una página completa por producto (12 en total) pensada para
+compartir y para buscadores: título, descripción, canonical, `og:image` y JSON-LD
+(`Product` + `BreadcrumbList`) propios, con la misma ficha visual (galería, precio,
+características, relacionados).
+
+- Se generan desde `PRODUCTS`, no se editan a mano.
+- El botón «Añadir al carrito» escribe en el mismo `localStorage` que la tienda y el
+  icono del carrito lleva a `index.html?carrito=1`, que abre el carrito ya con el
+  producto dentro.
+- «Abrir en la tienda» va a `index.html?producto=<id>`, donde la ficha se abre en modal.
+- La ficha en modal enlaza a su página con «Ver página del producto», y su canonical
+  apunta a `p/<id>.html` para no duplicar contenido.
+- La tarjeta al compartir es `assets/img/compartir/<id>.jpg` (1200×630). Si falta,
+  se usa `assets/img/og-pulso.jpg`.
+
+Para regenerarlas después de tocar el catálogo:
+
+```bash
+node tools/build-jsonld.mjs   # JSON-LD del catálogo en index.html
+node tools/build-pages.mjs    # p/<id>.html y sitemap.xml
+```
+
+Ambos scripts leen `PRODUCTS` de `app.js`; el dominio está en `tools/products.mjs`.
 
 Cada producto usa `assets/img/<id>.webp` como imagen principal y
 `assets/img/<id>-detalle.webp` como segunda vista de la galería. Si añades un producto
@@ -63,21 +96,19 @@ Con movimiento reducido la página no lo pide y el hero se queda con su imagen.
 
 ## Para compartir y buscadores
 
-- **Open Graph y Twitter Card** en el `<head>`: título, descripción e imagen 1200×630
-  (`assets/img/og-pulso.jpg`). También se actualizan al abrir una ficha, para las
-  previsualizaciones que ejecutan JavaScript.
-- **JSON-LD** con `Store`, `WebSite` y un `ItemList` de los 12 productos (precio,
-  disponibilidad y valoración). Es estático: se genera desde `PRODUCTS` y se pega en
-  `index.html`. Si cambias el catálogo, vuelve a generarlo.
-- **`sitemap.xml`** y **`robots.txt`**.
+- **Open Graph y Twitter Card** en el `<head>` de la portada: título, descripción e
+  imagen 1200×630 (`assets/img/og-pulso.jpg`). También se actualizan al abrir una ficha,
+  para las previsualizaciones que ejecutan JavaScript.
+- **Una página por producto** (`p/<id>.html`) con sus propias etiquetas sociales, su
+  tarjeta 1200×630 y `canonical` a sí misma: cada enlace se comparte con su producto.
+- **JSON-LD** con `Store`, `WebSite` y un `ItemList` de los 12 productos en la portada,
+  más un `Product` + `BreadcrumbList` en cada página. Se genera desde `PRODUCTS`.
+- **`sitemap.xml`** (portada + 12 productos) y **`robots.txt`**.
 
 > **Antes de publicar**: sustituye `https://pulso.example` por tu dominio real en
-> `index.html` (canonical, `og:url`, `og:image`, `twitter:image`), `sitemap.xml` y
-> `robots.txt`. Es un dominio de ejemplo y no debe quedarse así.
-
-Como la ficha vive en `?producto=...`, los rastreadores solo ven las etiquetas de la
-portada. Para que cada producto tenga su propia tarjeta al compartir haría falta una
-página estática por producto.
+> `tools/products.mjs` (`SITE`), en el `<head>` de `index.html` (canonical, `og:url`,
+> `og:image`, `twitter:image`) y en `robots.txt`; después ejecuta los dos scripts de
+> `tools/` para reescribir las páginas y el sitemap.
 
 ## Datos
 

@@ -1971,7 +1971,7 @@ a {
   text-transform: uppercase;
 }
 
-.product-modal-info h2 {
+.product-modal-info :is(h1, h2) {
   margin: 7px 0 8px;
   font-family: var(--font-display);
   font-size: clamp(30px, 3.4vw, 43px);
@@ -2117,6 +2117,19 @@ a {
   font-size: 9px;
 }
 
+.product-modal-link {
+  align-self: flex-start;
+  margin-top: 9px;
+  color: var(--faint);
+  font-size: 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.product-modal-link:hover {
+  color: var(--lime);
+}
+
 .modal-fav {
   display: grid;
   width: 48px;
@@ -2178,6 +2191,7 @@ a {
   background: var(--surface);
   color: var(--ink);
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   transition: border-color 170ms ease-out, background-color 170ms ease-out;
 }
@@ -2809,6 +2823,90 @@ a {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Página de producto estática (p/<id>.html)
+   Reutiliza las piezas de la ficha en modal; solo añade el marco de página.
+--------------------------------------------------------------------------- */
+
+.product-page {
+  padding-top: clamp(22px, 4vw, 40px);
+}
+
+.breadcrumb {
+  margin-bottom: 18px;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--faint);
+  font-size: 11px;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb li + li::before {
+  content: "/";
+  color: var(--line-strong);
+}
+
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--ink);
+}
+
+.breadcrumb [aria-current="page"] {
+  color: var(--ink);
+}
+
+.product-page-card {
+  max-width: none;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.product-page-buy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 26px;
+}
+
+.product-page-buy .btn {
+  flex: 1 1 180px;
+}
+
+.product-page-related {
+  margin-top: clamp(30px, 5vw, 46px);
+}
+
+.product-page-related h2 {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.product-page-related .product-related-list {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 @media (max-width: 1120px) {

@@ -256,9 +256,15 @@
   const socialMeta = {
     ogTitle: document.querySelector('meta[property="og:title"]'),
     ogDescription: document.querySelector('meta[property="og:description"]'),
+    ogUrl: document.querySelector('meta[property="og:url"]'),
     twitterTitle: document.querySelector('meta[name="twitter:title"]'),
     twitterDescription: document.querySelector('meta[name="twitter:description"]')
   };
+
+  // Cada producto tiene su página estática; la ficha enlaza y canonicaliza ahí.
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
+  const HOME_URL = canonicalLink ? canonicalLink.href : window.location.href;
+  const SITE_BASE = HOME_URL.replace(/[^/]*$/, "");
 
   // Marca si la ficha abierta añadió una entrada al historial (para cerrarla con back).
   let productEntryPushed = false;
@@ -310,6 +316,8 @@
       ? `${product.name} — ${product.description}`
       : BASE_DESCRIPTION;
 
+    const pageUrl = product ? `${SITE_BASE}p/${product.id}.html` : HOME_URL;
+
     document.title = title;
     setMetaContent(metaDescription, description);
 
@@ -317,8 +325,13 @@
     // de WhatsApp/X/Telegram se quedan con las etiquetas estáticas del HTML.
     setMetaContent(socialMeta.ogTitle, title);
     setMetaContent(socialMeta.ogDescription, description);
+    setMetaContent(socialMeta.ogUrl, pageUrl);
     setMetaContent(socialMeta.twitterTitle, title);
     setMetaContent(socialMeta.twitterDescription, description);
+
+    // ?producto=... y p/<id>.html muestran lo mismo: el canonical apunta a la página.
+    if (canonicalLink) canonicalLink.setAttribute("href", pageUrl);
+    if (productModalLink && product) productModalLink.href = `p/${product.id}.html`;
   }
 
   // Lleva la URL al estado actual de la interfaz.
@@ -371,6 +384,7 @@
   const productModalRating = document.getElementById("product-modal-rating");
   const productRelatedList = document.getElementById("product-related-list");
   const modalFav = document.getElementById("modal-fav");
+  const productModalLink = document.getElementById("product-modal-link");
   const modalQty = document.getElementById("modal-qty");
   const modalAdd = document.getElementById("modal-add");
   const cartRoot = document.getElementById("cart-root");
@@ -1505,6 +1519,12 @@
 
   applyURLState();
   renderCart();
+
+  // Las páginas de producto enlazan con ?carrito=1 para abrir el carrito al llegar.
+  if (new URLSearchParams(window.location.search).get("carrito") === "1") {
+    openCart(cartTrigger);
+    syncURL("replace");
+  }
 
   // Un enlace con filtro o búsqueda debe aterrizar en el catálogo, no en el hero.
   const incoming = readURL();
