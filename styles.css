@@ -641,158 +641,33 @@ a {
   display: grid;
   min-height: 636px;
   place-items: center;
-  overflow: hidden;
-  padding: 30px 24px 130px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 30px;
-  background: var(--stage);
+  perspective: 1500px;
   isolation: isolate;
 }
 
+/* Halo suave detrás del producto; el panel y la rejilla ya no están. */
 .hero-visual::before {
   content: "";
   position: absolute;
-  inset: 0;
   z-index: -1;
-  background-image:
-    repeating-linear-gradient(90deg, transparent 0 79px, rgba(12, 17, 13, 0.07) 79px 80px),
-    repeating-linear-gradient(0deg, transparent 0 79px, rgba(12, 17, 13, 0.07) 79px 80px);
-  pointer-events: none;
-}
-
-.hero-orbit {
-  position: absolute;
-  width: 76%;
+  width: min(640px, 100%);
   aspect-ratio: 1;
-  border: 1px solid rgba(12, 17, 13, 0.18);
   border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(214, 255, 79, 0.2), transparent 58%),
+    radial-gradient(circle at 50% 72%, rgba(118, 241, 208, 0.16), transparent 56%);
+  filter: blur(14px);
+  pointer-events: none;
 }
 
 .hero-image {
   position: relative;
   z-index: 2;
   width: auto;
-  max-width: 64%;
-  max-height: 510px;
+  max-width: 100%;
+  max-height: 620px;
   object-fit: contain;
-  filter: drop-shadow(0 30px 28px rgba(7, 10, 8, 0.23));
-}
-
-.hero-visual-head {
-  position: absolute;
-  top: 20px;
-  right: 22px;
-  left: 22px;
-  z-index: 4;
-  display: flex;
-  justify-content: space-between;
-  color: rgba(12, 17, 13, 0.56);
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
-.hero-sticker {
-  position: absolute;
-  top: 56px;
-  right: 24px;
-  z-index: 4;
-  display: grid;
-  width: 82px;
-  height: 82px;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--lime);
-  color: #0a0d0a;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  line-height: 1.35;
-  text-align: center;
-  text-transform: uppercase;
-  transform: rotate(7deg);
-}
-
-.hero-product-card {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  z-index: 4;
-  display: grid;
-  width: min(285px, calc(100% - 40px));
-  gap: 10px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-md);
-  background: rgba(11, 13, 12, 0.94);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(8px);
-}
-
-.hero-product-kicker {
-  margin: 0 0 3px;
-  color: var(--lime);
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.hero-product-spec {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.hero-product-price {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 23px;
-  font-weight: 550;
-  letter-spacing: -0.035em;
-}
-
-.hero-product-link {
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 9px 0 0;
-  border: 0;
-  border-top: 1px solid var(--line);
-  background: transparent;
-  color: var(--lime);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.hero-product-link .od-icon {
-  --od-icon-size: 15px;
-}
-
-.hero-product-link:hover {
-  color: var(--mint);
-}
-
-.hero-measure {
-  position: absolute;
-  bottom: 172px;
-  left: 18px;
-  z-index: 3;
-  display: flex;
-  gap: 18px;
-  color: rgba(12, 17, 13, 0.5);
-  font-size: 8px;
-  font-weight: 650;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  transform: rotate(180deg);
-  writing-mode: vertical-rl;
+  filter: drop-shadow(0 34px 32px rgba(0, 0, 0, 0.48));
 }
 
 .service-band {
@@ -1572,64 +1447,32 @@ a {
   display: grid;
   min-height: 556px;
   place-items: center;
-  overflow: hidden;
-  padding: 48px 38px;
-  border-radius: 26px;
-  background: var(--stage);
   isolation: isolate;
 }
 
-.feature-orbit {
-  position: absolute;
-  width: 70%;
-  aspect-ratio: 1;
-  border: 1px solid rgba(12, 17, 13, 0.16);
-  border-radius: 50%;
-}
-
+/* Halo suave detrás del mando (antes era el panel claro con la rejilla). */
 .feature-visual::before {
   content: "";
   position: absolute;
-  inset: 0;
   z-index: -1;
-  background-image: repeating-linear-gradient(90deg, transparent 0 89px, rgba(12, 17, 13, 0.06) 89px 90px);
+  width: min(600px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(214, 255, 79, 0.18), transparent 58%),
+    radial-gradient(circle at 50% 70%, rgba(118, 241, 208, 0.14), transparent 56%);
+  filter: blur(14px);
+  pointer-events: none;
 }
 
 .feature-visual img {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-height: 430px;
+  max-height: 470px;
   object-fit: contain;
-  filter: drop-shadow(0 32px 28px rgba(7, 10, 8, 0.22));
+  filter: drop-shadow(0 34px 30px rgba(0, 0, 0, 0.46));
   transform: rotate(-4deg);
-}
-
-.feature-sticker {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 3;
-  padding: 8px 9px;
-  border-radius: 4px;
-  background: #0a0d0a;
-  color: var(--lime);
-  font-size: 8px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.feature-caption {
-  position: absolute;
-  bottom: 18px;
-  left: 20px;
-  z-index: 3;
-  color: rgba(12, 17, 13, 0.52);
-  font-size: 8px;
-  font-weight: 650;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 .feature-copy .section-index {
@@ -3236,33 +3079,12 @@ a {
   }
 
   .hero-visual {
-    min-height: 490px;
-    padding: 24px 16px 125px;
-    border-radius: 22px;
+    min-height: 470px;
   }
 
   .hero-image {
-    max-width: 68%;
-    max-height: 350px;
-  }
-
-  .hero-sticker {
-    top: 48px;
-    right: 16px;
-    width: 68px;
-    height: 68px;
-    font-size: 8px;
-  }
-
-  .hero-product-card {
-    bottom: 14px;
-    left: 14px;
-    width: min(272px, calc(100% - 28px));
-    padding: 14px;
-  }
-
-  .hero-measure {
-    display: none;
+    max-width: 100%;
+    max-height: 420px;
   }
 
   .section-heading {
@@ -3360,12 +3182,11 @@ a {
   }
 
   .feature-visual {
-    min-height: 380px;
-    padding: 34px 20px;
+    min-height: 340px;
   }
 
   .feature-visual img {
-    max-height: 300px;
+    max-height: 320px;
   }
 
   .feature-copy h2 {
@@ -3485,15 +3306,11 @@ a {
   }
 
   .hero-visual {
-    min-height: 440px;
+    min-height: 420px;
   }
 
   .hero-image {
-    max-height: 310px;
-  }
-
-  .hero-sticker {
-    display: none;
+    max-height: 360px;
   }
 
   .product-media-game .product-media-button {

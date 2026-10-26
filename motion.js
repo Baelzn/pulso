@@ -28,23 +28,6 @@
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   /* -------------------------------------------------------------------------
-     Escena 3D bajo demanda
-     Three.js pesa ~670 KB (casi la mitad de la página), así que no se descarga
-     hasta que el movimiento está realmente activo. Con movimiento reducido el
-     hero se queda con su imagen y sus anillos, sin pagar ese peso.
-     ---------------------------------------------------------------------- */
-
-  let hero3dRequested = false;
-
-  function startHero3D() {
-    if (hero3dRequested) return;
-    hero3dRequested = true;
-    import("./hero-3d.js").catch(() => {
-      hero3dRequested = false;
-    });
-  }
-
-  /* -------------------------------------------------------------------------
      Preferencia guardada
      ---------------------------------------------------------------------- */
 
@@ -76,6 +59,7 @@
 
   function revealAll() {
     document.querySelectorAll("[data-reveal]").forEach((node) => node.classList.add("is-revealed"));
+    revealTitles();
   }
 
   function observeReveals() {
@@ -185,6 +169,56 @@
   }
 
   /* -------------------------------------------------------------------------
+     Títulos de sección: revelado palabra a palabra
+     ---------------------------------------------------------------------- */
+
+  const titleObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-revealed");
+        titleObserver.unobserve(entry.target);
+      }
+    },
+    { rootMargin: "0px 0px -12% 0px", threshold: 0.35 }
+  );
+
+  function splitSectionTitles() {
+    document.querySelectorAll("[data-reveal-title]").forEach((title) => {
+      if (title.dataset.split === "1") return;
+
+      const text = title.textContent.replace(/\s+/g, " ").trim();
+      const words = text.split(" ").filter(Boolean);
+      if (!words.length) return;
+
+      title.textContent = "";
+      words.forEach((word, index) => {
+        const outer = document.createElement("span");
+        outer.className = "title-word";
+
+        const inner = document.createElement("span");
+        inner.className = "title-word-in";
+        inner.textContent = word;
+        inner.style.setProperty("--word-delay", `${index * 55}ms`);
+
+        outer.appendChild(inner);
+        title.appendChild(outer);
+        if (index < words.length - 1) title.appendChild(document.createTextNode(" "));
+      });
+
+      title.dataset.split = "1";
+      title.setAttribute("aria-label", text);
+      titleObserver.observe(title);
+    });
+  }
+
+  function revealTitles() {
+    document.querySelectorAll("[data-reveal-title]").forEach((title) => {
+      title.classList.add("is-revealed");
+    });
+  }
+
+  /* -------------------------------------------------------------------------
      Tilt 3D delegado
      ---------------------------------------------------------------------- */
 
@@ -267,6 +301,8 @@
 
   const hero = document.querySelector(".hero");
   const header = document.querySelector(".site-header");
+  const grid = document.querySelector(".product-grid");
+  const featureVisual = document.querySelector(".feature-visual");
   let scrollFrame = 0;
   let progressBar = null;
 
@@ -287,6 +323,68 @@
       hero.style.setProperty("--scroll-progress", progress.toFixed(4));
     } else if (hero) {
       hero.style.setProperty("--scroll-progress", "0");
+    }
+
+    /* Las tarjetas se inclinan en 3D según su posición en la pantalla. */
+    if (grid && motionEnabled()) {
+      const vh = window.innerHeight;
+      const cards = Array.from(grid.children);
+      const rects = cards.map((card) => card.getBoundingClientRect());
+
+      cards.forEach((card, index) => {
+        const rect = rects[index];
+        if (!rect.height) return;
+
+        let rx = 0;
+        let pop = 1;
+
+        if (rect.bottom >= -vh * 0.25 && rect.top <= vh * 1.25) {
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) / (vh / 2), -1, 1);
+          rx = Math.round(offset * 40) / 10;
+          pop = Math.round((1 - Math.abs(offset) * 0.025) * 1000) / 1000;
+        }
+
+        if (card._rx === rx && card._pop === pop) return;
+
+        card._rx = rx;
+        card._pop = pop;
+        card.style.setProperty("--card-rx", `${rx}deg`);
+        card.style.setProperty("--card-pop", `${pop}`);
+      });
+    } else if (grid) {
+      grid.querySelectorAll(".product-card").forEach((card) => {
+        if (card._rx === 0 && card._pop === 1) return;
+        card._rx = 0;
+        card._pop = 1;
+        card.style.setProperty("--card-rx", "0deg");
+        card.style.setProperty("--card-pop", "1");
+      });
+    }
+
+    /* El mando gira en 3D mientras la sección cruza la pantalla. */
+    if (featureVisual && motionEnabled()) {
+      const rect = featureVisual.getBoundingClientRect();
+      const travel = clamp(
+        (window.innerHeight - rect.top) / (window.innerHeight + rect.height),
+        0,
+        1
+      );
+      const signed = travel * 2 - 1;
+      const ry = Math.round(signed * -130) / 10;
+      const roll = Math.round(signed * 30) / 10;
+      const shift = Math.round(signed * -160) / 10;
+
+      if (featureVisual._ry !== ry) {
+        featureVisual._ry = ry;
+        featureVisual.style.setProperty("--feature-ry", `${ry}deg`);
+        featureVisual.style.setProperty("--feature-roll", `${roll}deg`);
+        featureVisual.style.setProperty("--feature-shift", `${shift}px`);
+      }
+    } else if (featureVisual) {
+      featureVisual._ry = null;
+      featureVisual.style.setProperty("--feature-ry", "0deg");
+      featureVisual.style.setProperty("--feature-roll", "0deg");
+      featureVisual.style.setProperty("--feature-shift", "0px");
     }
 
     if (progressBar) {
@@ -405,7 +503,6 @@
     } else {
       playHeroTitle();
       staggerCards();
-      startHero3D();
     }
 
     syncToggle();
@@ -460,11 +557,11 @@
      ---------------------------------------------------------------------- */
 
   function start() {
+    splitSectionTitles();
     observeReveals();
     if (motionEnabled()) {
       playHeroTitle();
       staggerCards();
-      startHero3D();
     }
 
     document.addEventListener("pointermove", onPointerMove, { passive: true });

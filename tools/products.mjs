@@ -5,7 +5,7 @@ import fs from "node:fs";
  * La fuente de verdad sigue siendo PRODUCTS en app.js: aquí solo se lee.
  */
 
-export const SITE = "https://pulso.example/";
+export const SITE = "https://baelzn.github.io/pulso/";
 
 export const BRANDS = {
   "ps5": "Sony",

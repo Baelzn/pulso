@@ -91,6 +91,7 @@ function page(product) {
           </button>`;
   const detail = `${SITE}assets/img/${product.id}-detalle.webp`;
   const hasDetail = fs.existsSync(path.join(ROOT, "assets", "img", `${product.id}-detalle.webp`));
+  const isGame = product.category === "juegos";
   const count = new Intl.NumberFormat("es-ES").format(product.reviews);
 
   const breadcrumb = {
@@ -142,12 +143,12 @@ function page(product) {
   };
 
   const thumbs = [
-    `<button class="gallery-thumb" type="button" aria-pressed="true" aria-label="Vista general" data-src="../${esc(product.image)}" data-alt="${esc(product.alt)}">
+    `<button class="gallery-thumb" type="button" aria-pressed="true" aria-label="${isGame ? "Portada" : "Vista general"}" data-src="../${esc(product.image)}" data-alt="${esc(product.alt)}">
               <img src="../${esc(product.image)}" alt="" width="60" height="60" decoding="async">
             </button>`,
     ...(hasDetail
       ? [
-          `<button class="gallery-thumb" type="button" aria-pressed="false" aria-label="Detalle" data-src="../assets/img/${esc(product.id)}-detalle.webp" data-alt="Detalle de ${esc(product.name)}">
+          `<button class="gallery-thumb" type="button" aria-pressed="false" aria-label="${isGame ? "Captura" : "Detalle"}" data-src="../assets/img/${esc(product.id)}-detalle.webp" data-alt="${isGame ? "Captura" : "Detalle"} de ${esc(product.name)}">
               <img src="../assets/img/${esc(product.id)}-detalle.webp" alt="" width="60" height="60" decoding="async">
             </button>`
         ]
@@ -165,7 +166,7 @@ function page(product) {
   <meta name="description" content="${esc(description)}">
   <title>${esc(title)}</title>
 
-  <!-- Al publicar, cambia https://pulso.example por tu dominio real (README). -->
+  <!-- Demo en GitHub Pages; si usas otro dominio, cámbialo en tools/products.mjs. -->
   <link rel="canonical" href="${esc(product.pageUrl)}">
 
   <meta property="og:type" content="product">

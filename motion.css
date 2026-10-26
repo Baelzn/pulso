@@ -78,33 +78,10 @@
 }
 
 /* ---------------------------------------------------------------------------
-   3 · PARALLAX INTERNO DEL HERO
-   Capas que se desplazan a distinta velocidad según el tilt. Crea profundidad
-   incluso dentro de un contenedor con overflow: hidden.
+   3 · PRODUCTO DEL HERO: FLOTE SUAVE + PARALLAX DEL PUNTERO
+   El recorte PNG sube y baja muy despacio, como flotando. La animación usa
+   `translate`, así que no pisa el `transform` del parallax del puntero.
    ------------------------------------------------------------------------- */
-
-.hero-visual .hero-image,
-.hero-visual .hero-orbit,
-.hero-visual .hero-visual-head,
-.hero-visual .hero-product-card {
-  transition: transform 420ms var(--ease-out-expo);
-  will-change: transform;
-}
-
-.hero-visual.is-tilting .hero-image,
-.hero-visual.is-tilting .hero-orbit,
-.hero-visual.is-tilting .hero-visual-head,
-.hero-visual.is-tilting .hero-product-card {
-  transition: transform 90ms linear;
-}
-
-.hero-visual .hero-orbit {
-  transform: translate3d(
-    calc(var(--tilt-x, 0) * -10px),
-    calc(var(--tilt-y, 0) * -10px),
-    0
-  );
-}
 
 .hero-visual .hero-image {
   transform: translate3d(
@@ -112,38 +89,26 @@
     calc(var(--tilt-y, 0) * 16px),
     0
   );
-}
-
-.hero-visual .hero-visual-head {
-  transform: translate3d(
-    calc(var(--tilt-x, 0) * 6px),
-    calc(var(--tilt-y, 0) * 6px),
-    0
-  );
-}
-
-.hero-visual .hero-product-card {
-  transform: translate3d(
-    calc(var(--tilt-x, 0) * 26px),
-    calc(var(--tilt-y, 0) * 22px),
-    0
-  );
-}
-
-.hero-visual .hero-sticker {
-  transform:
-    rotate(7deg)
-    translate3d(
-      calc(var(--tilt-x, 0) * 32px),
-      calc(var(--tilt-y, 0) * 28px),
-      0
-    );
   transition: transform 420ms var(--ease-out-expo);
   will-change: transform;
 }
 
-.hero-visual.is-tilting .hero-sticker {
+.hero-visual.is-tilting .hero-image {
   transition: transform 90ms linear;
+}
+
+.js-motion .hero-image {
+  animation: hero-float 6.5s ease-in-out infinite;
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -14px;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -151,25 +116,8 @@
    motion.js escribe --scroll-progress (0 → 1) en .hero.
    ------------------------------------------------------------------------- */
 
-/* Lienzo de la escena Three.js: dentro del panel claro, bajo la foto del producto. */
-.hero-3d {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 100%;
-  opacity: 0.92;
-  pointer-events: none;
-}
-
 .hero {
   --scroll-progress: 0;
-}
-
-.hero-orbit {
-  transform: scale(calc(1 + var(--scroll-progress, 0) * 0.06));
-  transition: transform 120ms linear;
 }
 
 .hero-copy .eyebrow,
@@ -193,15 +141,18 @@
 .product-card {
   --tilt-rx: 0deg;
   --tilt-ry: 0deg;
+  --card-rx: 0deg;
+  --card-pop: 1;
   --card-lift: 0px;
   --sheen-x: 50%;
   --sheen-y: 50%;
   position: relative;
   transform:
     perspective(900px)
-    rotateX(var(--tilt-rx))
+    rotateX(calc(var(--tilt-rx) + var(--card-rx)))
     rotateY(var(--tilt-ry))
-    translateY(var(--card-lift));
+    translateY(var(--card-lift))
+    scale(var(--card-pop));
   transform-style: preserve-3d;
   transition: transform 240ms var(--ease-out-expo), border-color 190ms ease-out;
 }
@@ -237,7 +188,13 @@
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.045);
+  transform:
+    scale(1.045)
+    translate3d(
+      calc(var(--tilt-x, 0) * -9px),
+      calc(var(--tilt-y, 0) * -9px),
+      0
+    );
 }
 
 /* ---------------------------------------------------------------------------
@@ -428,7 +385,6 @@
    ------------------------------------------------------------------------- */
 
 .btn,
-.hero-product-link,
 .add-btn,
 .text-link {
   transition:
@@ -440,7 +396,6 @@
 }
 
 .btn.is-magnetized,
-.hero-product-link.is-magnetized,
 .add-btn.is-magnetized {
   transition: transform 80ms linear;
 }
@@ -498,7 +453,7 @@
 @keyframes card-in {
   from {
     opacity: 0;
-    transform: translate3d(0, 26px, 0) scale(0.975);
+    transform: translate3d(0, 30px, 0) rotateX(-9deg) scale(0.972);
   }
   to {
     opacity: 1;
@@ -507,7 +462,8 @@
 }
 
 .product-card.is-entering {
-  animation: card-in 560ms var(--ease-out-expo) backwards;
+  transform-origin: 50% 100%;
+  animation: card-in 620ms var(--ease-out-expo) backwards;
   animation-delay: var(--enter-delay, 0ms);
 }
 
@@ -698,7 +654,84 @@
 }
 
 /* ---------------------------------------------------------------------------
-   12 · RESPETO A PREFERS-REDUCED-MOTION
+   12 · PROFUNDIDAD 3D AL HACER SCROLL
+   motion.js escribe --scroll-progress en .hero y --grid-rx / --grid-skew en
+   .product-grid. El hero se inclina hacia dentro y el catálogo entra en
+   perspectiva y se endereza al llegar arriba.
+   ------------------------------------------------------------------------- */
+
+.js-motion .hero {
+  perspective: 1800px;
+  overflow-x: clip;
+}
+
+.js-motion .hero-inner {
+  transform-origin: 50% 0%;
+  transform:
+    rotateX(calc(var(--scroll-progress, 0) * 7deg))
+    scale(calc(1 - var(--scroll-progress, 0) * 0.045));
+  transition: transform 120ms linear;
+  will-change: transform;
+}
+
+/* Títulos de sección que se descubren palabra a palabra. */
+[data-reveal-title] {
+  perspective: 820px;
+}
+
+.title-word {
+  display: inline-block;
+  overflow: hidden;
+  /* deja respirar los descendentes (p, q, g) al recortar */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  vertical-align: bottom;
+}
+
+.title-word-in {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+
+.js-motion [data-reveal-title] .title-word-in {
+  opacity: 0;
+  transform: translate3d(0, 112%, 0) rotateX(-58deg);
+}
+
+.js-motion [data-reveal-title].is-revealed .title-word-in {
+  animation: word-rise 900ms var(--ease-out-expo) forwards;
+  animation-delay: var(--word-delay, 0ms);
+}
+
+/* El mando de la sección «Siéntelo» gira en 3D al cruzar la pantalla. */
+.js-motion .feature-visual {
+  perspective: 1300px;
+}
+
+.js-motion .feature-visual img {
+  transform-origin: 50% 58%;
+  transform:
+    rotate(calc(-4deg + var(--feature-roll, 0deg)))
+    rotateY(var(--feature-ry, 0deg))
+    translate3d(0, var(--feature-shift, 0px), 0);
+  transition: transform 140ms linear;
+  will-change: transform;
+}
+
+/* Las fotos de categoría se despliegan desde abajo al entrar. */
+.js-motion .category-card .category-image {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1000ms var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-motion .category-card.is-revealed .category-image {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---------------------------------------------------------------------------
+   13 · RESPETO A PREFERS-REDUCED-MOTION
    Todo el movimiento se apaga, pero el contenido sigue visible.
    El interruptor del footer lo reactiva con [data-motion="on"].
    ------------------------------------------------------------------------- */
@@ -737,17 +770,16 @@
   :root:not([data-motion="on"]) .hero-copy .hero-lede,
   :root:not([data-motion="on"]) .hero-copy .hero-actions,
   :root:not([data-motion="on"]) .hero-copy .hero-platforms,
-  :root:not([data-motion="on"]) .hero-orbit,
   :root:not([data-motion="on"]) .hero-visual .hero-image,
-  :root:not([data-motion="on"]) .hero-visual .hero-orbit,
-  :root:not([data-motion="on"]) .hero-visual .hero-visual-head,
-  :root:not([data-motion="on"]) .hero-visual .hero-product-card,
-  :root:not([data-motion="on"]) .hero-visual .hero-sticker,
   :root:not([data-motion="on"]) .product-card,
   :root:not([data-motion="on"]) .product-card:hover,
   :root:not([data-motion="on"]) .product-card:hover .product-image {
     transform: none !important;
     transition: none !important;
+  }
+
+  :root:not([data-motion="on"]) .hero-image {
+    animation: none !important;
   }
 
   :root:not([data-motion="on"]) .product-card::after,
@@ -767,5 +799,26 @@
   :root:not([data-motion="on"]) .marquee-track {
     animation: none;
     transform: none;
+  }
+
+  :root:not([data-motion="on"]) .hero-inner {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  :root:not([data-motion="on"]) .title-word-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  :root:not([data-motion="on"]) .category-card .category-image {
+    clip-path: none;
+    transition: none;
+  }
+
+  :root:not([data-motion="on"]) .feature-visual img {
+    transform: rotate(-4deg);
+    transition: none;
   }
 }

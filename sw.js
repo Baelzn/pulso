@@ -9,7 +9,7 @@
  * Para publicar cambios hay que subir VERSION: eso invalida las cachés antiguas.
  */
 
-const VERSION = "pulso-v1";
+const VERSION = "pulso-v3";
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 
@@ -20,7 +20,6 @@ const SHELL = [
   "./motion.css",
   "./app.js",
   "./motion.js",
-  "./hero-3d.js",
   "./manifest.webmanifest",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",

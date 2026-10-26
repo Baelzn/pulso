@@ -51,8 +51,8 @@
       badge: "Imprescindible",
       image: "assets/img/elden-ring.webp",
       alt: "Portada de Elden Ring",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "El mundo abierto de FromSoftware: explora las Tierras Intermedias a tu manera y enfrenta a sus jefes legendarios.",
       features: ["Mundo abierto", "RPG de acción", "Modo un jugador y online"]
     },
@@ -87,8 +87,8 @@
       badge: "Edición completa",
       image: "assets/img/cyberpunk-2077.webp",
       alt: "Portada de Cyberpunk 2077 Ultimate Edition",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Night City, la expansión Phantom Liberty y todas las mejoras de la versión 2.0 en una sola edición.",
       features: ["Incluye Phantom Liberty", "Versión 2.0", "RPG de mundo abierto"]
     },
@@ -141,8 +141,8 @@
       badge: "Aclamado",
       image: "assets/img/baldurs-gate-3.webp",
       alt: "Portada de Baldur's Gate 3",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Un RPG por turnos enorme donde cada decisión cambia la historia, el mundo y a quienes te acompañan.",
       features: ["RPG por turnos", "Cooperativo", "Decisiones ramificadas"]
     },
@@ -177,8 +177,8 @@
       badge: "",
       image: "assets/img/forza-horizon-5.webp",
       alt: "Portada de Forza Horizon 5",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Recorre un México de mundo abierto con más de 500 coches, eventos y rutas para cualquier estilo de conducción.",
       features: ["Mundo abierto", "Más de 500 coches", "4K HDR"]
     },
@@ -195,8 +195,8 @@
       badge: "",
       image: "assets/img/spider-man-2.webp",
       alt: "Portada de Marvel's Spider-Man 2",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Peter y Miles se enfrentan a Veneno en una Nueva York más grande, con nuevas habilidades y desplazamientos.",
       features: ["Peter y Miles", "Veneno", "Nueva York ampliada"]
     },
@@ -231,8 +231,8 @@
       badge: "Remasterizado",
       image: "assets/img/last-of-us-2.webp",
       alt: "Portada de The Last of Us Part II Remastered",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "La historia de Ellie y Abby con mejoras visuales, el modo Sin retorno y comentarios del estudio.",
       features: ["Modo Sin retorno", "4K y 60 fps", "Comentarios del estudio"]
     },
@@ -249,8 +249,8 @@
       badge: "Épico",
       image: "assets/img/god-of-war-ragnarok.webp",
       alt: "Portada de God of War Ragnarök",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Kratos y Atreus recorren los nueve reinos en el cierre de la saga nórdica, con un combate más libre.",
       features: ["Los nueve reinos", "Hacha Leviatán", "Modo historia"]
     },
@@ -267,8 +267,8 @@
       badge: "Aventura",
       image: "assets/img/zelda-totk.webp",
       alt: "Portada de Zelda: Tears of the Kingdom",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Hyrule por cielo, superficie y subsuelo, con construcción de vehículos y nuevas habilidades.",
       features: ["Islas flotantes", "Construcción de vehículos", "Mundo en tres capas"]
     },
@@ -285,8 +285,8 @@
       badge: "Nuevo",
       image: "assets/img/hades-2.webp",
       alt: "Portada de Hades II",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Melínoe se enfrenta al Titán del Tiempo en un roguelite de acción con builds y dioses del Olimpo.",
       features: ["Roguelite de acción", "Builds con dioses", "Combate con magia"]
     },
@@ -303,8 +303,8 @@
       badge: "Clásico",
       image: "assets/img/red-dead-2.webp",
       alt: "Portada de Red Dead Redemption 2",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "La banda de Van der Linde en el crepúsculo del Salvaje Oeste: mundo abierto, caza y decisiones.",
       features: ["Mundo abierto", "Modo historia", "Red Dead Online"]
     },
@@ -321,8 +321,8 @@
       badge: "Indie",
       image: "assets/img/silksong.webp",
       alt: "Portada de Hollow Knight: Silksong",
-      width: 632,
-      height: 1014,
+      width: 600,
+      height: 900,
       description: "Hornet desciende a Pharloom en un metroidvania de precisión con combate rápido y secretos.",
       features: ["Metroidvania", "Combate de precisión", "Mapa artesanal"]
     }
@@ -648,22 +648,25 @@
     return product.price >= range.min && product.price < range.max;
   }
 
-  // Cada producto tiene una segunda vista en assets/img/<id>-detalle.webp.
+  // Cada producto tiene una segunda vista en assets/img/<id>-detalle.webp:
+  // los juegos muestran una captura del juego y el hardware, un primer plano.
   function productViews(product) {
+    const isGame = product.category === "juegos";
+
     return [
       {
         src: product.image,
         alt: product.alt,
         width: product.width,
         height: product.height,
-        label: "Vista general"
+        label: isGame ? "Portada" : "Vista general"
       },
       {
         src: `assets/img/${product.id}-detalle.webp`,
-        alt: `Detalle de ${product.name}`,
-        width: 700,
-        height: 700,
-        label: "Detalle"
+        alt: isGame ? `Captura de ${product.name}` : `Detalle de ${product.name}`,
+        width: isGame ? 1280 : 700,
+        height: isGame ? 720 : 700,
+        label: isGame ? "Captura" : "Detalle"
       }
     ];
   }
