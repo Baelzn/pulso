@@ -12,6 +12,15 @@ import { SITE, loadProducts } from "./products.mjs";
 const HTML_PATH = new URL("../index.html", import.meta.url);
 const products = loadProducts();
 
+const LOW_STOCK = 3;
+
+const availability = (product) =>
+  product.stock <= 0
+    ? "https://schema.org/OutOfStock"
+    : product.stock <= LOW_STOCK
+      ? "https://schema.org/LimitedAvailability"
+      : "https://schema.org/InStock";
+
 const store = {
   "@type": "Store",
   "@id": `${SITE}#tienda`,
@@ -62,7 +71,7 @@ const itemList = {
         url: product.pageUrl,
         price: product.price.toFixed(2),
         priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
+        availability: availability(product),
         itemCondition: "https://schema.org/NewCondition"
       }
     }

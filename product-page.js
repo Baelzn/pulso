@@ -52,15 +52,21 @@
     toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2800);
   }
 
-  function addToCart(id) {
+  function addToCart(id, stock) {
     const cart = readCart().map((item) => ({
       id: String(item.id),
       qty: Math.max(1, Math.min(99, Number(item.qty) || 1))
     }));
 
+    const max = Math.max(1, Math.min(99, Number(stock) || 99));
     const line = cart.find((item) => item.id === id);
+
     if (line) {
-      line.qty = Math.min(99, line.qty + 1);
+      if (line.qty >= max) {
+        showToast("No quedan más unidades de este producto.");
+        return;
+      }
+      line.qty = Math.min(max, line.qty + 1);
     } else {
       cart.push({ id, qty: 1 });
     }
@@ -85,7 +91,7 @@
   document.addEventListener("click", (event) => {
     const add = event.target.closest("[data-add-to-cart]");
     if (add) {
-      addToCart(add.dataset.addToCart);
+      addToCart(add.dataset.addToCart, add.dataset.stock);
       return;
     }
 
@@ -94,4 +100,11 @@
   });
 
   renderCartCount();
+
+  // Mismo service worker que la portada (su ámbito es la raíz del sitio).
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("../sw.js", { scope: "../" }).catch(() => {});
+    });
+  }
 })();

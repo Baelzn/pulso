@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0d0c">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
   <meta name="description" content="Switch Pro Controller — El mando tradicional de Switch: sticks grandes, HD Rumble y una batería pensada para sesiones largas.">
   <title>Switch Pro Controller · Mando | PULSO</title>
 
@@ -23,7 +25,7 @@
   <meta property="og:image:alt" content="Switch Pro Controller en PULSO">
   <meta property="product:price:amount" content="64.99">
   <meta property="product:price:currency" content="EUR">
-  <meta property="product:availability" content="instock">
+  <meta property="product:availability" content="oos">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Switch Pro Controller · Mando | PULSO">
@@ -67,7 +69,7 @@
         "url": "https://pulso.example/p/switch-pro.html",
         "price": "64.99",
         "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock",
+        "availability": "https://schema.org/OutOfStock",
         "itemCondition": "https://schema.org/NewCondition",
         "seller": {
           "@id": "https://pulso.example/#tienda"
@@ -175,6 +177,7 @@
           <span class="product-modal-rating-text" aria-hidden="true"><strong>4,7</strong> · 512 valoraciones</span>
         </p>
         <p class="product-modal-price">64,99 €</p>
+        <p class="product-modal-stock is-out">Agotado</p>
         <p class="product-modal-description">El mando tradicional de Switch: sticks grandes, HD Rumble y una batería pensada para sesiones largas.</p>
 
         <ul class="product-modal-features">
@@ -184,12 +187,7 @@
         </ul>
 
         <div class="product-page-buy">
-          <button class="btn btn-primary" type="button" data-add-to-cart="switch-pro">
-            Añadir al carrito
-            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6"></path>
-            </svg>
-          </button>
+          <button class="btn btn-primary" type="button" disabled>Agotado</button>
           <a class="btn btn-secondary" href="../index.html?producto=switch-pro">Abrir en la tienda</a>
         </div>
         <p class="product-modal-note">Precio con IVA incluido · Envío calculado en el carrito</p>

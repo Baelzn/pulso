@@ -8,3 +8,10 @@ index.html.artifact.json
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Node y Playwright
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+.playwright/

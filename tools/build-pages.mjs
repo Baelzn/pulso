@@ -17,6 +17,27 @@ const SHARE_DIR = path.join(ROOT, "assets", "img", "compartir");
 
 const products = loadProducts();
 
+const LOW_STOCK = 3;
+
+const stockState = (product) =>
+  product.stock <= 0 ? "out" : product.stock <= LOW_STOCK ? "low" : "in";
+
+const stockLabel = (product) => {
+  const state = stockState(product);
+  if (state === "out") return "Agotado";
+  if (state === "low") {
+    return product.stock === 1 ? "Última unidad" : `Últimas ${product.stock} unidades`;
+  }
+  return "En stock";
+};
+
+const availability = (product) =>
+  product.stock <= 0
+    ? "https://schema.org/OutOfStock"
+    : product.stock <= LOW_STOCK
+      ? "https://schema.org/LimitedAvailability"
+      : "https://schema.org/InStock";
+
 const esc = (value) =>
   String(value)
     .replaceAll("&", "&amp;")
@@ -58,6 +79,16 @@ function page(product) {
   const description = `${product.name} — ${product.description}`;
   const image = shareImage(product);
   const price = money.format(product.price);
+  const stock = stockState(product);
+  const buyButton =
+    stock === "out"
+      ? `          <button class="btn btn-primary" type="button" disabled>Agotado</button>`
+      : `          <button class="btn btn-primary" type="button" data-add-to-cart="${esc(product.id)}" data-stock="${product.stock}">
+            Añadir al carrito
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </button>`;
   const detail = `${SITE}assets/img/${product.id}-detalle.webp`;
   const hasDetail = fs.existsSync(path.join(ROOT, "assets", "img", `${product.id}-detalle.webp`));
   const count = new Intl.NumberFormat("es-ES").format(product.reviews);
@@ -101,7 +132,7 @@ function page(product) {
           url: product.pageUrl,
           price: product.price.toFixed(2),
           priceCurrency: "EUR",
-          availability: "https://schema.org/InStock",
+          availability: availability(product),
           itemCondition: "https://schema.org/NewCondition",
           seller: { "@id": `${SITE}#tienda` }
         }
@@ -129,6 +160,8 @@ function page(product) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0d0c">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
   <meta name="description" content="${esc(description)}">
   <title>${esc(title)}</title>
 
@@ -148,7 +181,7 @@ function page(product) {
   <meta property="og:image:alt" content="${esc(product.name)} en PULSO">
   <meta property="product:price:amount" content="${product.price.toFixed(2)}">
   <meta property="product:price:currency" content="EUR">
-  <meta property="product:availability" content="instock">
+  <meta property="product:availability" content="${stock === "out" ? "oos" : "instock"}">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
@@ -233,6 +266,7 @@ ${jsonld(structured)}
           <span class="product-modal-rating-text" aria-hidden="true"><strong>${ratingText(product.rating)}</strong> · ${count} valoraciones</span>
         </p>
         <p class="product-modal-price">${price}</p>
+        <p class="product-modal-stock is-${stock}">${esc(stockLabel(product))}</p>
         <p class="product-modal-description">${esc(product.description)}</p>
 
         <ul class="product-modal-features">
@@ -240,12 +274,7 @@ ${product.features.map((feature) => `          <li>${esc(feature)}</li>`).join("
         </ul>
 
         <div class="product-page-buy">
-          <button class="btn btn-primary" type="button" data-add-to-cart="${esc(product.id)}">
-            Añadir al carrito
-            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6"></path>
-            </svg>
-          </button>
+${buyButton}
           <a class="btn btn-secondary" href="../index.html?producto=${esc(product.id)}">Abrir en la tienda</a>
         </div>
         <p class="product-modal-note">Precio con IVA incluido · Envío calculado en el carrito</p>

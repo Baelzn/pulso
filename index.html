@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0d0c">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <meta name="description" content="PULSO: consolas, juegos y mandos para tu próximo setup. Prototipo de tienda con catálogo de demostración.">
   <title>PULSO — Consolas, juegos y mandos</title>
 
@@ -70,7 +72,7 @@
       {
         "@type": "ItemList",
         "name": "Catálogo PULSO",
-        "numberOfItems": 12,
+        "numberOfItems": 18,
         "itemListElement": [
           {
             "@type": "ListItem",
@@ -163,7 +165,7 @@
                 "url": "https://pulso.example/p/elden-ring.html",
                 "price": "49.99",
                 "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock",
+                "availability": "https://schema.org/LimitedAvailability",
                 "itemCondition": "https://schema.org/NewCondition"
               }
             }
@@ -195,7 +197,7 @@
                 "url": "https://pulso.example/p/xbox-series-x.html",
                 "price": "499.99",
                 "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock",
+                "availability": "https://schema.org/OutOfStock",
                 "itemCondition": "https://schema.org/NewCondition"
               }
             }
@@ -259,7 +261,7 @@
                 "url": "https://pulso.example/p/xbox-controller.html",
                 "price": "59.99",
                 "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock",
+                "availability": "https://schema.org/LimitedAvailability",
                 "itemCondition": "https://schema.org/NewCondition"
               }
             }
@@ -355,7 +357,7 @@
                 "url": "https://pulso.example/p/switch-pro.html",
                 "price": "64.99",
                 "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock",
+                "availability": "https://schema.org/OutOfStock",
                 "itemCondition": "https://schema.org/NewCondition"
               }
             }
@@ -419,7 +421,7 @@
                 "url": "https://pulso.example/p/spider-man-2.html",
                 "price": "69.99",
                 "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock",
+                "availability": "https://schema.org/LimitedAvailability",
                 "itemCondition": "https://schema.org/NewCondition"
               }
             }
@@ -450,6 +452,198 @@
                 "@type": "Offer",
                 "url": "https://pulso.example/p/charging-station.html",
                 "price": "29.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 13,
+            "item": {
+              "@type": "Product",
+              "name": "The Last of Us Part II Remastered",
+              "description": "La historia de Ellie y Abby con mejoras visuales, el modo Sin retorno y comentarios del estudio.",
+              "image": "https://pulso.example/assets/img/last-of-us-2.webp",
+              "url": "https://pulso.example/p/last-of-us-2.html",
+              "sku": "last-of-us-2",
+              "category": "Juego",
+              "brand": {
+                "@type": "Brand",
+                "name": "Naughty Dog"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": 612,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://pulso.example/p/last-of-us-2.html",
+                "price": "49.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 14,
+            "item": {
+              "@type": "Product",
+              "name": "God of War Ragnarök",
+              "description": "Kratos y Atreus recorren los nueve reinos en el cierre de la saga nórdica, con un combate más libre.",
+              "image": "https://pulso.example/assets/img/god-of-war-ragnarok.webp",
+              "url": "https://pulso.example/p/god-of-war-ragnarok.html",
+              "sku": "god-of-war-ragnarok",
+              "category": "Juego",
+              "brand": {
+                "@type": "Brand",
+                "name": "Santa Monica Studio"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 1420,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://pulso.example/p/god-of-war-ragnarok.html",
+                "price": "59.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 15,
+            "item": {
+              "@type": "Product",
+              "name": "Zelda: Tears of the Kingdom",
+              "description": "Hyrule por cielo, superficie y subsuelo, con construcción de vehículos y nuevas habilidades.",
+              "image": "https://pulso.example/assets/img/zelda-totk.webp",
+              "url": "https://pulso.example/p/zelda-totk.html",
+              "sku": "zelda-totk",
+              "category": "Juego",
+              "brand": {
+                "@type": "Brand",
+                "name": "Nintendo"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 1830,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://pulso.example/p/zelda-totk.html",
+                "price": "59.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/LimitedAvailability",
+                "itemCondition": "https://schema.org/NewCondition"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 16,
+            "item": {
+              "@type": "Product",
+              "name": "Hades II",
+              "description": "Melínoe se enfrenta al Titán del Tiempo en un roguelite de acción con builds y dioses del Olimpo.",
+              "image": "https://pulso.example/assets/img/hades-2.webp",
+              "url": "https://pulso.example/p/hades-2.html",
+              "sku": "hades-2",
+              "category": "Juego",
+              "brand": {
+                "@type": "Brand",
+                "name": "Supergiant Games"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": 380,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://pulso.example/p/hades-2.html",
+                "price": "29.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 17,
+            "item": {
+              "@type": "Product",
+              "name": "Red Dead Redemption 2",
+              "description": "La banda de Van der Linde en el crepúsculo del Salvaje Oeste: mundo abierto, caza y decisiones.",
+              "image": "https://pulso.example/assets/img/red-dead-2.webp",
+              "url": "https://pulso.example/p/red-dead-2.html",
+              "sku": "red-dead-2",
+              "category": "Juego",
+              "brand": {
+                "@type": "Brand",
+                "name": "Rockstar Games"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 2103,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://pulso.example/p/red-dead-2.html",
+                "price": "39.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 18,
+            "item": {
+              "@type": "Product",
+              "name": "Hollow Knight: Silksong",
+              "description": "Hornet desciende a Pharloom en un metroidvania de precisión con combate rápido y secretos.",
+              "image": "https://pulso.example/assets/img/silksong.webp",
+              "url": "https://pulso.example/p/silksong.html",
+              "sku": "silksong",
+              "category": "Juego",
+              "brand": {
+                "@type": "Brand",
+                "name": "Team Cherry"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": 267,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://pulso.example/p/silksong.html",
+                "price": "19.99",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock",
                 "itemCondition": "https://schema.org/NewCondition"
@@ -817,18 +1011,39 @@
         </div>
 
         <div class="catalog-toolbar">
-          <div class="filter-chips" role="group" aria-label="Filtrar por categoría">
-            <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">Todo <span data-filter-count="all">12</span></button>
-            <button class="filter-chip" type="button" data-filter="consolas" aria-pressed="false">Consolas <span data-filter-count="consolas">3</span></button>
-            <button class="filter-chip" type="button" data-filter="juegos" aria-pressed="false">Juegos <span data-filter-count="juegos">5</span></button>
-            <button class="filter-chip" type="button" data-filter="mandos" aria-pressed="false">Mandos <span data-filter-count="mandos">3</span></button>
-            <button class="filter-chip" type="button" data-filter="accesorios" aria-pressed="false">Accesorios <span data-filter-count="accesorios">1</span></button>
-            <button class="filter-chip filter-chip-fav" type="button" data-filter="favoritos" aria-pressed="false" hidden>
-              <svg class="filter-chip-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21.2l7.8-7.8 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"></path>
-              </svg>
-              Favoritos <span data-filter-count="favoritos">0</span>
-            </button>
+          <div class="filter-groups">
+            <div class="filter-chips filter-chips-primary" role="group" aria-label="Filtrar por categoría">
+              <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">Todo <span data-filter-count="all">18</span></button>
+              <button class="filter-chip" type="button" data-filter="consolas" aria-pressed="false">Consolas <span data-filter-count="consolas">3</span></button>
+              <button class="filter-chip" type="button" data-filter="juegos" aria-pressed="false">Juegos <span data-filter-count="juegos">11</span></button>
+              <button class="filter-chip" type="button" data-filter="mandos" aria-pressed="false">Mandos <span data-filter-count="mandos">3</span></button>
+              <button class="filter-chip" type="button" data-filter="accesorios" aria-pressed="false">Accesorios <span data-filter-count="accesorios">1</span></button>
+              <button class="filter-chip filter-chip-fav" type="button" data-filter="favoritos" aria-pressed="false" hidden>
+                <svg class="filter-chip-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21.2l7.8-7.8 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"></path>
+                </svg>
+                Favoritos <span data-filter-count="favoritos">0</span>
+              </button>
+            </div>
+
+            <div class="filter-row">
+              <div class="filter-chips filter-chips-secondary" role="group" aria-label="Filtrar por plataforma">
+                <span class="filter-group-label">Plataforma</span>
+                <button class="filter-chip filter-chip-sm is-active" type="button" data-platform="all" aria-pressed="true">Todas</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-platform="ps5" aria-pressed="false">PS5</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-platform="xbox" aria-pressed="false">Xbox</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-platform="switch" aria-pressed="false">Switch</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-platform="pc" aria-pressed="false">PC</button>
+              </div>
+
+              <div class="filter-chips filter-chips-secondary" role="group" aria-label="Filtrar por precio">
+                <span class="filter-group-label">Precio</span>
+                <button class="filter-chip filter-chip-sm is-active" type="button" data-price="all" aria-pressed="true">Cualquiera</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-price="menos50" aria-pressed="false">Menos de 50 €</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-price="50-100" aria-pressed="false">50–100 €</button>
+                <button class="filter-chip filter-chip-sm" type="button" data-price="mas100" aria-pressed="false">Más de 100 €</button>
+              </div>
+            </div>
           </div>
 
           <label class="sort-control" for="sort-select">
@@ -844,7 +1059,7 @@
         </div>
 
         <div class="results-row">
-          <p class="result-count" id="result-count" aria-live="polite">12 productos</p>
+          <p class="result-count" id="result-count" aria-live="polite">18 productos</p>
           <a class="back-top" href="#inicio">Volver arriba
             <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 19V5M6 11l6-6 6 6"></path>
@@ -993,6 +1208,8 @@
 
         <ul class="product-modal-features" id="product-modal-features"></ul>
 
+        <p class="product-modal-stock" id="product-modal-stock">En stock</p>
+
         <div class="product-modal-buy">
           <div class="quantity-control" role="group" aria-label="Cantidad">
             <button type="button" id="modal-qty-minus" aria-label="Reducir cantidad">
@@ -1008,7 +1225,7 @@
             </button>
           </div>
           <button class="btn btn-primary modal-add" id="modal-add" type="button" data-add-modal>
-            Añadir al carrito
+            <span id="modal-add-label">Añadir al carrito</span>
             <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6"></path>
             </svg>

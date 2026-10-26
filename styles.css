@@ -1068,12 +1068,41 @@ a {
 
 .catalog-toolbar {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
   padding: 15px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+}
+
+.filter-groups {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 22px;
+}
+
+.filter-group-label {
+  color: var(--faint);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.filter-chip-sm {
+  min-height: 32px;
+  padding: 0 11px;
+  font-size: 11px;
 }
 
 .filter-chips {
@@ -1409,6 +1438,29 @@ a {
   margin: 0;
 }
 
+.product-price-block {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stock-note {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.stock-note.is-low {
+  color: var(--lime);
+}
+
+.stock-note.is-out {
+  color: #ff9b82;
+}
+
 .product-price strong {
   font-family: var(--font-display);
   font-size: 20px;
@@ -1448,6 +1500,19 @@ a {
   border-color: var(--lime);
   background: var(--lime);
   color: #0a0d0a;
+}
+
+.add-btn:disabled {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--faint);
+  cursor: not-allowed;
+}
+
+.add-btn:disabled:hover {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--faint);
 }
 
 .add-btn.is-added {
@@ -2071,6 +2136,23 @@ a {
   padding-top: 12px;
 }
 
+.product-modal-stock {
+  margin: 18px 0 0;
+  color: var(--mint);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-modal-stock.is-low {
+  color: var(--lime);
+}
+
+.product-modal-stock.is-out {
+  color: #ff9b82;
+}
+
 .quantity-control {
   display: flex;
   flex: none;
@@ -2096,6 +2178,13 @@ a {
   background: var(--surface-3);
 }
 
+.quantity-control button:disabled,
+.quantity-control button:disabled:hover {
+  background: transparent;
+  color: var(--faint);
+  cursor: not-allowed;
+}
+
 .quantity-control .od-icon {
   --od-icon-size: 14px;
 }
@@ -2109,6 +2198,13 @@ a {
 
 .modal-add {
   flex: 1;
+}
+
+.modal-add:disabled {
+  border-color: var(--line);
+  background: var(--surface-2);
+  color: var(--faint);
+  cursor: not-allowed;
 }
 
 .product-modal-note {
@@ -2449,6 +2545,13 @@ a {
 
 .cart-item-qty button:hover {
   background: var(--surface-2);
+}
+
+.cart-item-qty button:disabled,
+.cart-item-qty button:disabled:hover {
+  background: transparent;
+  color: var(--faint);
+  cursor: not-allowed;
 }
 
 .cart-item-qty .od-icon {
@@ -3026,6 +3129,31 @@ a {
   .catalog-toolbar {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  /* En móvil las filas de plataforma y precio se deslizan en horizontal:
+     el catálogo no se empuja media pantalla hacia abajo. */
+  .filter-chips-secondary {
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .filter-chips-secondary::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-chips-secondary .filter-chip {
+    flex: none;
   }
 
   .sort-control {

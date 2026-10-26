@@ -19,7 +19,13 @@ export const BRANDS = {
   "switch-pro": "Nintendo",
   "forza-horizon-5": "Xbox Game Studios",
   "spider-man-2": "Insomniac Games",
-  "charging-station": "Sony"
+  "charging-station": "Sony",
+  "last-of-us-2": "Naughty Dog",
+  "god-of-war-ragnarok": "Santa Monica Studio",
+  "zelda-totk": "Nintendo",
+  "hades-2": "Supergiant Games",
+  "red-dead-2": "Rockstar Games",
+  "silksong": "Team Cherry"
 };
 
 export const money = new Intl.NumberFormat("es-ES", {

@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0d0c">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
   <meta name="description" content="Elden Ring — El mundo abierto de FromSoftware: explora las Tierras Intermedias a tu manera y enfrenta a sus jefes legendarios.">
   <title>Elden Ring · Juego | PULSO</title>
 
@@ -67,7 +69,7 @@
         "url": "https://pulso.example/p/elden-ring.html",
         "price": "49.99",
         "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock",
+        "availability": "https://schema.org/LimitedAvailability",
         "itemCondition": "https://schema.org/NewCondition",
         "seller": {
           "@id": "https://pulso.example/#tienda"
@@ -175,6 +177,7 @@
           <span class="product-modal-rating-text" aria-hidden="true"><strong>4,9</strong> · 1204 valoraciones</span>
         </p>
         <p class="product-modal-price">49,99 €</p>
+        <p class="product-modal-stock is-low">Últimas 2 unidades</p>
         <p class="product-modal-description">El mundo abierto de FromSoftware: explora las Tierras Intermedias a tu manera y enfrenta a sus jefes legendarios.</p>
 
         <ul class="product-modal-features">
@@ -184,7 +187,7 @@
         </ul>
 
         <div class="product-page-buy">
-          <button class="btn btn-primary" type="button" data-add-to-cart="elden-ring">
+          <button class="btn btn-primary" type="button" data-add-to-cart="elden-ring" data-stock="2">
             Añadir al carrito
             <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6"></path>
@@ -206,18 +209,18 @@
             <span class="related-price">59,99 €</span>
           </span>
         </a>
-        <a class="related-card" href="spider-man-2.html">
-          <span class="related-media"><img src="../assets/img/spider-man-2.webp" alt="" width="54" height="54" loading="lazy" decoding="async"></span>
+        <a class="related-card" href="god-of-war-ragnarok.html">
+          <span class="related-media"><img src="../assets/img/god-of-war-ragnarok.webp" alt="" width="54" height="54" loading="lazy" decoding="async"></span>
           <span class="related-body">
-            <span class="related-name">Marvel's Spider-Man 2</span>
-            <span class="related-price">69,99 €</span>
+            <span class="related-name">God of War Ragnarök</span>
+            <span class="related-price">59,99 €</span>
           </span>
         </a>
-        <a class="related-card" href="forza-horizon-5.html">
-          <span class="related-media"><img src="../assets/img/forza-horizon-5.webp" alt="" width="54" height="54" loading="lazy" decoding="async"></span>
+        <a class="related-card" href="zelda-totk.html">
+          <span class="related-media"><img src="../assets/img/zelda-totk.webp" alt="" width="54" height="54" loading="lazy" decoding="async"></span>
           <span class="related-body">
-            <span class="related-name">Forza Horizon 5</span>
-            <span class="related-price">49,99 €</span>
+            <span class="related-name">Zelda: Tears of the Kingdom</span>
+            <span class="related-price">59,99 €</span>
           </span>
         </a>
       </div>

@@ -11,6 +11,7 @@
       price: 499.99,
       rating: 4.8,
       reviews: 412,
+      stock: 4,
       badge: "Destacado",
       image: "assets/img/ps5.webp",
       alt: "PlayStation 5 vertical con mando DualSense",
@@ -28,6 +29,7 @@
       price: 69.99,
       rating: 4.7,
       reviews: 638,
+      stock: 12,
       badge: "Favorito",
       image: "assets/img/dualsense.webp",
       alt: "Mando DualSense blanco y negro",
@@ -45,6 +47,7 @@
       price: 49.99,
       rating: 4.9,
       reviews: 1204,
+      stock: 2,
       badge: "Imprescindible",
       image: "assets/img/elden-ring.webp",
       alt: "Portada de Elden Ring",
@@ -62,6 +65,7 @@
       price: 499.99,
       rating: 4.7,
       reviews: 287,
+      stock: 0,
       badge: "Potencia",
       image: "assets/img/xbox-series-x.webp",
       alt: "Xbox Series X vertical con mando inalámbrico",
@@ -79,6 +83,7 @@
       price: 59.99,
       rating: 4.4,
       reviews: 903,
+      stock: 7,
       badge: "Edición completa",
       image: "assets/img/cyberpunk-2077.webp",
       alt: "Portada de Cyberpunk 2077 Ultimate Edition",
@@ -96,6 +101,7 @@
       price: 59.99,
       rating: 4.6,
       reviews: 741,
+      stock: 3,
       badge: "",
       image: "assets/img/xbox-controller.webp",
       alt: "Mando inalámbrico Xbox en color negro, visto por delante y por detrás",
@@ -113,6 +119,7 @@
       price: 319.99,
       rating: 4.8,
       reviews: 356,
+      stock: 5,
       badge: "Portátil",
       image: "assets/img/switch-oled.webp",
       alt: "Nintendo Switch OLED con Joy-Con blancos",
@@ -130,6 +137,7 @@
       price: 59.99,
       rating: 4.9,
       reviews: 1587,
+      stock: 9,
       badge: "Aclamado",
       image: "assets/img/baldurs-gate-3.webp",
       alt: "Portada de Baldur's Gate 3",
@@ -147,6 +155,7 @@
       price: 64.99,
       rating: 4.7,
       reviews: 512,
+      stock: 0,
       badge: "",
       image: "assets/img/switch-pro.webp",
       alt: "Mando Pro Controller negro para Nintendo Switch",
@@ -164,6 +173,7 @@
       price: 49.99,
       rating: 4.6,
       reviews: 688,
+      stock: 6,
       badge: "",
       image: "assets/img/forza-horizon-5.webp",
       alt: "Portada de Forza Horizon 5",
@@ -181,6 +191,7 @@
       price: 69.99,
       rating: 4.8,
       reviews: 934,
+      stock: 1,
       badge: "",
       image: "assets/img/spider-man-2.webp",
       alt: "Portada de Marvel's Spider-Man 2",
@@ -198,6 +209,7 @@
       price: 29.99,
       rating: 4.3,
       reviews: 176,
+      stock: 15,
       badge: "",
       image: "assets/img/dualsense-charging.webp",
       alt: "Estación de carga oficial para dos mandos DualSense",
@@ -205,6 +217,114 @@
       height: 619,
       description: "Carga dos mandos DualSense a la vez sin ocupar los puertos USB de la consola.",
       features: ["Carga dos mandos", "Base estable", "Sin ocupar puertos USB"]
+    },
+    {
+      id: "last-of-us-2",
+      name: "The Last of Us Part II Remastered",
+      category: "juegos",
+      categoryLabel: "Juego",
+      platform: "PS5",
+      price: 49.99,
+      rating: 4.8,
+      reviews: 612,
+      stock: 8,
+      badge: "Remasterizado",
+      image: "assets/img/last-of-us-2.webp",
+      alt: "Portada de The Last of Us Part II Remastered",
+      width: 632,
+      height: 1014,
+      description: "La historia de Ellie y Abby con mejoras visuales, el modo Sin retorno y comentarios del estudio.",
+      features: ["Modo Sin retorno", "4K y 60 fps", "Comentarios del estudio"]
+    },
+    {
+      id: "god-of-war-ragnarok",
+      name: "God of War Ragnarök",
+      category: "juegos",
+      categoryLabel: "Juego",
+      platform: "PS5 · PC",
+      price: 59.99,
+      rating: 4.9,
+      reviews: 1420,
+      stock: 5,
+      badge: "Épico",
+      image: "assets/img/god-of-war-ragnarok.webp",
+      alt: "Portada de God of War Ragnarök",
+      width: 632,
+      height: 1014,
+      description: "Kratos y Atreus recorren los nueve reinos en el cierre de la saga nórdica, con un combate más libre.",
+      features: ["Los nueve reinos", "Hacha Leviatán", "Modo historia"]
+    },
+    {
+      id: "zelda-totk",
+      name: "Zelda: Tears of the Kingdom",
+      category: "juegos",
+      categoryLabel: "Juego",
+      platform: "Switch",
+      price: 59.99,
+      rating: 4.9,
+      reviews: 1830,
+      stock: 2,
+      badge: "Aventura",
+      image: "assets/img/zelda-totk.webp",
+      alt: "Portada de Zelda: Tears of the Kingdom",
+      width: 632,
+      height: 1014,
+      description: "Hyrule por cielo, superficie y subsuelo, con construcción de vehículos y nuevas habilidades.",
+      features: ["Islas flotantes", "Construcción de vehículos", "Mundo en tres capas"]
+    },
+    {
+      id: "hades-2",
+      name: "Hades II",
+      category: "juegos",
+      categoryLabel: "Juego",
+      platform: "PC · Switch",
+      price: 29.99,
+      rating: 4.7,
+      reviews: 380,
+      stock: 20,
+      badge: "Nuevo",
+      image: "assets/img/hades-2.webp",
+      alt: "Portada de Hades II",
+      width: 632,
+      height: 1014,
+      description: "Melínoe se enfrenta al Titán del Tiempo en un roguelite de acción con builds y dioses del Olimpo.",
+      features: ["Roguelite de acción", "Builds con dioses", "Combate con magia"]
+    },
+    {
+      id: "red-dead-2",
+      name: "Red Dead Redemption 2",
+      category: "juegos",
+      categoryLabel: "Juego",
+      platform: "Xbox · PC",
+      price: 39.99,
+      rating: 4.9,
+      reviews: 2103,
+      stock: 4,
+      badge: "Clásico",
+      image: "assets/img/red-dead-2.webp",
+      alt: "Portada de Red Dead Redemption 2",
+      width: 632,
+      height: 1014,
+      description: "La banda de Van der Linde en el crepúsculo del Salvaje Oeste: mundo abierto, caza y decisiones.",
+      features: ["Mundo abierto", "Modo historia", "Red Dead Online"]
+    },
+    {
+      id: "silksong",
+      name: "Hollow Knight: Silksong",
+      category: "juegos",
+      categoryLabel: "Juego",
+      platform: "PC · Switch",
+      price: 19.99,
+      rating: 4.8,
+      reviews: 267,
+      stock: 11,
+      badge: "Indie",
+      image: "assets/img/silksong.webp",
+      alt: "Portada de Hollow Knight: Silksong",
+      width: 632,
+      height: 1014,
+      description: "Hornet desciende a Pharloom en un metroidvania de precisión con combate rápido y secretos.",
+      features: ["Metroidvania", "Combate de precisión", "Mapa artesanal"]
     }
   ];
 
@@ -216,6 +336,24 @@
     accesorios: "Accesorios",
     favoritos: "Favoritos"
   };
+
+  const PLATFORM_LABELS = {
+    all: "Todas",
+    ps5: "PS5",
+    xbox: "Xbox",
+    switch: "Switch",
+    pc: "PC"
+  };
+
+  const PRICE_RANGES = {
+    all: { label: "Cualquier precio", min: 0, max: Infinity },
+    menos50: { label: "Menos de 50 €", min: 0, max: 50 },
+    "50-100": { label: "50 € – 100 €", min: 50, max: 100 },
+    mas100: { label: "Más de 100 €", min: 100, max: Infinity }
+  };
+
+  // A partir de aquí se avisa de las últimas unidades.
+  const LOW_STOCK = 3;
 
   const STORAGE_KEY = "pulso-cart-v1";
   const FAVS_KEY = "pulso-favs-v1";
@@ -230,6 +368,8 @@
 
   const state = {
     filter: "all",
+    platform: "all",
+    price: "all",
     search: "",
     sort: "featured",
     cart: loadCart(),
@@ -272,6 +412,8 @@
   function catalogQuery() {
     const params = new URLSearchParams();
     if (state.filter !== "all") params.set("categoria", state.filter);
+    if (state.platform !== "all") params.set("plataforma", state.platform);
+    if (state.price !== "all") params.set("precio", state.price);
     const query = state.search.trim();
     if (query) params.set("q", query);
     if (state.sort !== "featured") params.set("orden", state.sort);
@@ -294,10 +436,14 @@
   function readURL() {
     const params = new URLSearchParams(window.location.search);
     const filter = params.get("categoria");
+    const platform = params.get("plataforma");
+    const price = params.get("precio");
     const sort = params.get("orden");
     const product = params.get("producto");
     return {
       filter: Object.prototype.hasOwnProperty.call(CATEGORY_LABELS, filter) ? filter : "all",
+      platform: Object.prototype.hasOwnProperty.call(PLATFORM_LABELS, platform) ? platform : "all",
+      price: Object.prototype.hasOwnProperty.call(PRICE_RANGES, price) ? price : "all",
       search: params.get("q") || "",
       sort: SORT_VALUES.includes(sort) ? sort : "featured",
       product: getProduct(product) ? product : null
@@ -338,6 +484,8 @@
   function applyURLState() {
     const url = readURL();
     state.filter = url.filter;
+    state.platform = url.platform;
+    state.price = url.price;
     state.search = url.search;
     state.sort = url.sort;
 
@@ -360,7 +508,7 @@
   const emptyTitle = document.getElementById("empty-title");
   const emptyText = document.getElementById("empty-text");
   const resultCount = document.getElementById("result-count");
-  const filterChips = Array.from(document.querySelectorAll(".filter-chip"));
+  const filterChips = Array.from(document.querySelectorAll(".filter-chip[data-filter]"));
   const sortSelect = document.getElementById("sort-select");
   const searchInput = document.getElementById("search-input");
   const searchClear = document.getElementById("search-clear");
@@ -385,8 +533,12 @@
   const productRelatedList = document.getElementById("product-related-list");
   const modalFav = document.getElementById("modal-fav");
   const productModalLink = document.getElementById("product-modal-link");
+  const productModalStock = document.getElementById("product-modal-stock");
   const modalQty = document.getElementById("modal-qty");
+  const modalQtyMinus = document.getElementById("modal-qty-minus");
+  const modalQtyPlus = document.getElementById("modal-qty-plus");
   const modalAdd = document.getElementById("modal-add");
+  const modalAddLabel = document.getElementById("modal-add-label");
   const cartRoot = document.getElementById("cart-root");
   const cartTitleCount = document.getElementById("cart-title-count");
   const cartItems = document.getElementById("cart-items");
@@ -454,6 +606,46 @@
 
   function getProduct(id) {
     return PRODUCTS.find((product) => product.id === id);
+  }
+
+  // "PS5 · Xbox · PC" -> ["ps5", "xbox", "pc"] (una sola fuente de verdad: el texto visible).
+  function platformTags(product) {
+    return product.platform
+      .split("·")
+      .map((token) => normalize(token))
+      .flatMap((token) => {
+        if (token === "ps5" || token.includes("playstation")) return ["ps5"];
+        if (token.includes("xbox")) return ["xbox"];
+        if (token.includes("switch")) return ["switch"];
+        if (token === "pc") return ["pc"];
+        return [];
+      });
+  }
+
+  function stockState(product) {
+    if (product.stock <= 0) return "out";
+    if (product.stock <= LOW_STOCK) return "low";
+    return "in";
+  }
+
+  // Texto corto para la ficha; en las tarjetas solo se muestra cuando hay prisa.
+  function stockLabel(product) {
+    const state = stockState(product);
+    if (state === "out") return "Agotado";
+    if (state === "low") {
+      return product.stock === 1 ? "Última unidad" : `Últimas ${product.stock} unidades`;
+    }
+    return "En stock";
+  }
+
+  function inStock(product) {
+    return stockState(product) !== "out";
+  }
+
+  function matchesPrice(product) {
+    const range = PRICE_RANGES[state.price];
+    if (!range) return true;
+    return product.price >= range.min && product.price < range.max;
   }
 
   // Cada producto tiene una segunda vista en assets/img/<id>-detalle.webp.
@@ -616,10 +808,17 @@
         (state.filter === "favoritos"
           ? isFavorite(product.id)
           : product.category === state.filter);
+      const matchesPlatform =
+        state.platform === "all" || platformTags(product).includes(state.platform);
       const haystack = normalize(
         `${product.name} ${product.categoryLabel} ${product.platform} ${product.description}`
       );
-      return matchesFilter && (!query || haystack.includes(query));
+      return (
+        matchesFilter &&
+        matchesPlatform &&
+        matchesPrice(product) &&
+        (!query || haystack.includes(query))
+      );
     });
 
     if (state.sort === "price-asc") {
@@ -647,11 +846,14 @@
           "Pulsa el corazón de cualquier producto y lo encontrarás aquí cuando vuelvas.";
       } else if (state.filter === "favoritos") {
         emptyTitle.textContent = "Ninguno de tus favoritos coincide.";
-        emptyText.textContent = "Borra la búsqueda o cambia de categoría para verlos todos.";
+        emptyText.textContent = "Borra la búsqueda o quita la plataforma y el precio para verlos todos.";
       } else if (query) {
         emptyTitle.textContent = "No encontramos nada con esa búsqueda.";
         emptyText.textContent =
           "Prueba con otro nombre o borra la búsqueda para ver todo el catálogo.";
+      } else if (state.platform !== "all" || state.price !== "all") {
+        emptyTitle.textContent = "No hay nada con esa combinación.";
+        emptyText.textContent = "Prueba otra plataforma, otro precio o cambia de categoría.";
       } else {
         emptyTitle.textContent = "No encontramos nada con ese filtro.";
         emptyText.textContent = "Prueba otra categoría para ver todo el catálogo.";
@@ -688,6 +890,13 @@
     const favLabel = `${saved ? "Quitar" : "Guardar"} ${product.name} ${
       saved ? "de" : "en"
     } favoritos`;
+    const stock = stockState(product);
+    const soldOut = stock === "out";
+    const stockNote = soldOut
+      ? `<p class="stock-note is-out">${escapeHTML(stockLabel(product))}</p>`
+      : stock === "low"
+        ? `<p class="stock-note is-low">${escapeHTML(stockLabel(product))}</p>`
+        : "";
 
     return `
       <article class="product-card" data-product-card="${product.id}">
@@ -708,10 +917,13 @@
             <p class="product-rating">${starIcon(11)}<span>${ratingText(product.rating)}</span></p>
           </div>
           <div class="product-bottom">
-            <p class="product-price"><strong>${money.format(product.price)}</strong><span>IVA incluido</span></p>
-            <button class="add-btn" type="button" data-add-to-cart="${product.id}" aria-label="Añadir ${escapeHTML(product.name)} al carrito">
-              ${icon("plus", 14)}
-              <span>Añadir</span>
+            <div class="product-price-block">
+              <p class="product-price"><strong>${money.format(product.price)}</strong><span>IVA incluido</span></p>
+              ${stockNote}
+            </div>
+            <button class="add-btn" type="button" data-add-to-cart="${product.id}" ${soldOut ? "disabled" : ""} aria-label="${soldOut ? "Producto agotado" : `Añadir ${escapeHTML(product.name)} al carrito`}">
+              ${soldOut ? icon("close", 14) : icon("plus", 14)}
+              <span>${soldOut ? "Agotado" : "Añadir"}</span>
             </button>
           </div>
         </div>
@@ -734,7 +946,36 @@
       chip.classList.toggle("is-active", active);
       chip.setAttribute("aria-pressed", String(active));
     });
+
+    document.querySelectorAll("[data-platform]").forEach((chip) => {
+      const active = chip.dataset.platform === state.platform;
+      chip.classList.toggle("is-active", active);
+      chip.setAttribute("aria-pressed", String(active));
+    });
+
+    document.querySelectorAll("[data-price]").forEach((chip) => {
+      const active = chip.dataset.price === state.price;
+      chip.classList.toggle("is-active", active);
+      chip.setAttribute("aria-pressed", String(active));
+    });
+
     updateFavoriteChip();
+  }
+
+  function applyPlatform(platform) {
+    if (!Object.prototype.hasOwnProperty.call(PLATFORM_LABELS, platform)) return;
+    state.platform = platform;
+    updateFilterUI();
+    renderProducts();
+    syncURL("replace");
+  }
+
+  function applyPrice(price) {
+    if (!Object.prototype.hasOwnProperty.call(PRICE_RANGES, price)) return;
+    state.price = price;
+    updateFilterUI();
+    renderProducts();
+    syncURL("replace");
   }
 
   function applyFilter(filter, options = {}) {
@@ -759,6 +1000,8 @@
 
   function resetCatalog() {
     state.filter = "all";
+    state.platform = "all";
+    state.price = "all";
     state.search = "";
     state.sort = "featured";
     searchInput.value = "";
@@ -773,11 +1016,24 @@
     const product = getProduct(id);
     if (!product) return;
 
+    if (!inStock(product)) {
+      showToast(`${product.name} está agotado`);
+      return;
+    }
+
     const existing = state.cart.find((item) => item.id === id);
+    const current = existing ? existing.qty : 0;
+    const next = Math.min(product.stock, current + qty);
+
+    if (next === current) {
+      showToast(`No quedan más unidades de ${product.name}`);
+      return;
+    }
+
     if (existing) {
-      existing.qty = Math.min(99, existing.qty + qty);
+      existing.qty = next;
     } else {
-      state.cart.push({ id, qty: Math.min(99, qty) });
+      state.cart.push({ id, qty: next });
     }
 
     saveCart();
@@ -792,7 +1048,9 @@
     if (qty <= 0) {
       state.cart = state.cart.filter((item) => item.id !== id);
     } else {
-      existing.qty = Math.min(99, qty);
+      const product = getProduct(id);
+      const max = product ? Math.min(99, Math.max(1, product.stock)) : 99;
+      existing.qty = Math.min(max, qty);
     }
 
     saveCart();
@@ -841,7 +1099,9 @@
     shippingMeter.hidden = lines.length === 0;
 
     cartItems.innerHTML = lines
-      .map(({ product, qty }) => `
+      .map(({ product, qty }) => {
+        const max = Math.min(99, Math.max(1, product.stock));
+        return `
         <li class="cart-item" data-cart-item="${product.id}">
           <div class="cart-item-media">
             <img src="${product.image}" alt="" width="${product.width}" height="${product.height}" loading="lazy">
@@ -854,14 +1114,15 @@
               <div class="cart-item-qty" role="group" aria-label="Cantidad de ${escapeHTML(product.name)}">
                 <button type="button" data-cart-step="-1" data-id="${product.id}" aria-label="Reducir cantidad de ${escapeHTML(product.name)}">${icon("minus", 12)}</button>
                 <span aria-live="polite">${qty}</span>
-                <button type="button" data-cart-step="1" data-id="${product.id}" aria-label="Aumentar cantidad de ${escapeHTML(product.name)}">${icon("plus", 12)}</button>
+                <button type="button" data-cart-step="1" data-id="${product.id}" aria-label="Aumentar cantidad de ${escapeHTML(product.name)}" ${qty >= max ? "disabled" : ""}>${icon("plus", 12)}</button>
               </div>
               <button class="cart-remove" type="button" data-cart-remove="${product.id}" aria-label="Eliminar ${escapeHTML(product.name)} del carrito">${icon("trash", 15)}</button>
             </div>
           </div>
           <p class="cart-item-total">${money.format(product.price * qty)}</p>
         </li>
-      `)
+      `;
+      })
       .join("");
 
     cartSubtotal.textContent = money.format(subtotal);
@@ -1030,6 +1291,15 @@
     productModalTitle.textContent = product.name;
     productModalPlatform.textContent = product.platform;
     productModalPrice.textContent = money.format(product.price);
+
+    const stock = stockState(product);
+    productModalStock.textContent = stockLabel(product);
+    productModalStock.className = `product-modal-stock is-${stock}`;
+    modalAdd.disabled = stock === "out";
+    modalAddLabel.textContent = stock === "out" ? "Agotado" : "Añadir al carrito";
+    modalQtyMinus.disabled = stock === "out";
+    modalQtyPlus.disabled = stock === "out";
+
     productModalDescription.textContent = product.description;
     productModalFeatures.innerHTML = product.features
       .map((feature) => `<li>${icon("check", 15)}<span>${escapeHTML(feature)}</span></li>`)
@@ -1257,6 +1527,14 @@
     chip.addEventListener("click", () => applyFilter(chip.dataset.filter, { url: "push" }));
   });
 
+  document.querySelectorAll("[data-platform]").forEach((chip) => {
+    chip.addEventListener("click", () => applyPlatform(chip.dataset.platform));
+  });
+
+  document.querySelectorAll("[data-price]").forEach((chip) => {
+    chip.addEventListener("click", () => applyPrice(chip.dataset.price));
+  });
+
   sortSelect.addEventListener("change", () => {
     state.sort = sortSelect.value;
     renderProducts();
@@ -1351,7 +1629,9 @@
   });
 
   document.getElementById("modal-qty-plus").addEventListener("click", () => {
-    state.modalQty = Math.min(99, state.modalQty + 1);
+    const product = getProduct(state.activeProductId);
+    const max = product ? Math.min(99, Math.max(1, product.stock)) : 99;
+    state.modalQty = Math.min(max, state.modalQty + 1);
     modalQty.textContent = String(state.modalQty);
   });
 
@@ -1528,7 +1808,22 @@
 
   // Un enlace con filtro o búsqueda debe aterrizar en el catálogo, no en el hero.
   const incoming = readURL();
-  if (!incoming.product && (incoming.filter !== "all" || incoming.search)) {
+  if (
+    !incoming.product &&
+    (incoming.filter !== "all" ||
+      incoming.platform !== "all" ||
+      incoming.price !== "all" ||
+      incoming.search)
+  ) {
     document.getElementById("catalogo").scrollIntoView({ behavior: "auto", block: "start" });
+  }
+
+  // PWA: tras la primera visita la tienda se abre también sin conexión.
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {
+        // Sin service worker la web sigue funcionando; solo se pierde el modo offline.
+      });
+    });
   }
 })();
