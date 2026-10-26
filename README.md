@@ -1,7 +1,20 @@
 # PULSO — tienda gaming (demo)
 
+[![CI](https://github.com/Baelzn/pulso/actions/workflows/ci.yml/badge.svg)](https://github.com/Baelzn/pulso/actions/workflows/ci.yml)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-d6ff4f)](LICENSE)
+
 Prototipo de escaparate para consolas, juegos y accesorios. Todo es estático: no hay
 backend, los precios son de demostración y el checkout simula el pedido.
+
+**Demo:** <https://baelzn.github.io/pulso/>
+
+## Capturas
+
+![Portada](docs/portada.webp)
+
+| Catálogo | Ficha de producto |
+| --- | --- |
+| ![Catálogo](docs/catalogo.webp) | ![Ficha](docs/ficha.webp) |
 
 ## Cómo verlo
 
@@ -14,8 +27,8 @@ npm run serve      # http://127.0.0.1:8080
 
 También vale cualquier servidor estático (`npx serve .`, `python -m http.server 8000`).
 
-Abrir `index.html` con doble clic funciona a medias: el navegador bloquea los módulos ES
-en `file://`, así que la escena 3D del hero y el service worker no cargarían.
+Abrir `index.html` con doble clic funciona a medias: en `file://` el service worker no se
+registra, así que se pierde el modo sin conexión.
 
 ## URLs
 
@@ -100,8 +113,7 @@ index.html             Marcado de la página (hero, categorías, catálogo, carr
 styles.css             Tokens de diseño y layout base
 motion.css             Capas de movimiento: reveals, tilt, parallax, flip 3D, marquee
 app.js                 Datos de producto, filtros, búsqueda, carrito, checkout y rutas
-motion.js              Motor de movimiento y carga bajo demanda de la escena 3D
-hero-3d.js             Escena Three.js del hero
+motion.js              Motor de movimiento: reveals, scroll 3D, tilt y cursor
 product-page.js        Carrito y galería de las páginas de producto
 manifest.webmanifest   Manifest de la PWA
 sw.js                  Service worker (shell offline)
@@ -111,7 +123,6 @@ tools/                 Scripts de generación y servidor local
 assets/icons/          Iconos de la PWA (generados)
 assets/img/            Imágenes WebP (originales en `_source/`)
 assets/img/compartir/  Tarjetas 1200×630 para compartir cada producto
-assets/vendor/         Three.js r169 (MIT)
 sitemap.xml            Mapa del sitio
 robots.txt             Reglas para rastreadores
 ```
@@ -134,7 +145,13 @@ node tools/build-jsonld.mjs --dry     # lo imprime sin escribir
 node tools/build-cards.mjs            # todas las tarjetas
 node tools/build-cards.mjs hades-2    # solo una
 node tools/build-icons.mjs            # iconos de la PWA
+node tools/fetch-art.mjs              # portadas y capturas de los juegos
+node tools/fetch-art.mjs hades-2      # solo la de un juego
 ```
+
+`fetch-art.mjs` descarga las portadas (`library_600x900`), elige una captura de cada
+juego en Steam y recorta el arte oficial de Zelda en Nintendo; después hay que ejecutar
+`npm run build && npm run build:cards`.
 
 Todos leen `PRODUCTS` de `app.js`; el dominio está en `tools/products.mjs` (`SITE`).
 
@@ -156,18 +173,33 @@ precio, stock, características, relacionados).
   se usa `assets/img/og-pulso.jpg`.
 
 Cada producto usa `assets/img/<id>.webp` como imagen principal y
-`assets/img/<id>-detalle.webp` como segunda vista de la galería. Si añades un producto
-nuevo, deja los dos archivos con ese nombre (o cambia `productViews()` en `app.js`) y
-ejecuta `npm run build && npm run build:cards`.
+`assets/img/<id>-detalle.webp` como segunda vista de la galería: en los juegos es una
+captura del juego (1280×720) y en consolas, mandos y accesorios, un primer plano
+(700×700). Si añades un producto nuevo, deja los dos archivos con ese nombre (o cambia
+`productViews()` en `app.js`) y ejecuta `npm run build && npm run build:cards`.
 
 ## Movimiento
 
-Se respeta `prefers-reduced-motion`: si el sistema pide movimiento reducido, las
-animaciones CSS y la escena 3D quedan apagadas. El interruptor del pie permite
-activarlas igualmente y la preferencia se guarda en `localStorage` (`pulso-motion`).
+Casi todo el movimiento va ligado al scroll y al puntero (sin librerías externas):
 
-Three.js pesa ~670 KB, así que solo se descarga cuando el movimiento está activo.
-Con movimiento reducido la página no lo pide y el hero se queda con su imagen.
+- **Hero**: la PS5 es un recorte PNG con transparencia que flota despacio (sube y baja
+  unos píxeles) sobre un halo de luz, sin panel ni ficha de precio. El titular entra
+  palabra a palabra desde una máscara 3D y, al hacer scroll, el bloque se inclina hacia
+  dentro.
+- **Títulos de sección**: `motion.js` los parte en palabras y cada una sube desde su
+  propia máscara (`data-reveal-title`).
+- **Tarjetas de producto**: entran con un giro en 3D y, mientras se desplazan, cada
+  tarjeta se inclina y se escala un poco según su posición en la pantalla.
+- **Categorías**: la foto se despliega desde abajo con `clip-path` y la tarjeta se
+  voltea en 3D al pasar el ratón.
+- **Sección «Siéntelo»**: el DualSense, recortado sobre el fondo con su halo, gira en
+  3D según cruza la pantalla.
+- Además: tilt en las tarjetas con brillo, botones magnéticos, halo de cursor, marquee,
+  barra de progreso de lectura y cabecera condensada.
+
+Se respeta `prefers-reduced-motion`: si el sistema pide movimiento reducido, las
+animaciones CSS quedan apagadas. El interruptor del pie permite activarlas igualmente
+y la preferencia se guarda en `localStorage` (`pulso-motion`).
 
 ## Para compartir y buscadores
 
@@ -181,10 +213,10 @@ Con movimiento reducido la página no lo pide y el hero se queda con su imagen.
   (`InStock`, `LimitedAvailability`, `OutOfStock`) sale del stock.
 - **`sitemap.xml`** (portada + 18 productos) y **`robots.txt`**.
 
-> **Antes de publicar**: sustituye `https://pulso.example` por tu dominio real en
-> `tools/products.mjs` (`SITE`), en el `<head>` de `index.html` (canonical, `og:url`,
-> `og:image`, `twitter:image`) y en `robots.txt`; después ejecuta `npm run build` para
-> reescribir las páginas y el sitemap.
+> **Dominio**: la demo se publica en GitHub Pages (`https://baelzn.github.io/pulso/`).
+> Si usas otro dominio, cámbialo en `tools/products.mjs` (`SITE`), en el `<head>` de
+> `index.html` (canonical, `og:url`, `og:image`, `twitter:image`) y en `robots.txt`;
+> después ejecuta `npm run build` para reescribir las páginas y el sitemap.
 
 ## Datos
 
@@ -195,11 +227,27 @@ Con movimiento reducido la página no lo pide y el hero se queda con su imagen.
 - Los favoritos se guardan en `localStorage` bajo `pulso-favs-v1`.
 - Envío gratis a partir de 49 €; por debajo, 4,95 €.
 - Las valoraciones (`rating` y `reviews`) son de demostración, igual que los precios.
-- La segunda vista de la galería es un recorte de la imagen principal; cuando haya
-  fotos reales, basta con reemplazar `<id>-detalle.webp`.
+- La segunda vista de la galería es una captura real del juego (no un recorte de la
+  portada); para cambiarla basta con reemplazar `<id>-detalle.webp`.
 
 ## Créditos
 
 Las imágenes son de terceros y se usan con fines demostrativos. La atribución completa
-está en el pie de la página. Las portadas de los productos añadidos en esta tanda son
-ilustraciones generadas para la demo.
+está en el pie de la página. Las portadas y las capturas de los juegos son material
+oficial de sus editores (Steam y Nintendo), descargado y redimensionado para la demo.
+
+## Publicación
+
+- **CI**: [`.github/workflows/ci.yml`](.github/workflows/ci.yml) instala dependencias,
+  Chromium y pasa los 26 tests en cada push o pull request.
+- **Demo**: [`.github/workflows/pages.yml`](.github/workflows/pages.yml) publica el sitio
+  estático en GitHub Pages. Hay que activarlo una vez en *Settings → Pages → Source:
+  GitHub Actions*.
+- El workflow copia solo los archivos del sitio (`index.html`, CSS, JS, `p/`, `assets`…),
+  así que `tools/`, `tests/` y `node_modules` no se publican.
+
+## Licencia
+
+El código está bajo licencia [MIT](LICENSE). Las imágenes de producto, portadas y
+capturas pertenecen a sus respectivos titulares y quedan fuera de esa licencia; se usan
+aquí con fines demostrativos (ver Créditos).

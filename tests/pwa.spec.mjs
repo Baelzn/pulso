@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { SITE } from "../tools/products.mjs";
 
 test.describe("PWA y rutas", () => {
   test("el manifest es válido y los iconos existen", async ({ page, request }) => {
@@ -75,7 +76,10 @@ test.describe("PWA y rutas", () => {
     expect(urls.length).toBe(19);
 
     for (const url of urls) {
-      const path = new URL(url).pathname;
+      // El sitemap lleva URLs absolutas (GitHub Pages servirá el sitio en un
+      // subdirectorio), así que probamos la ruta relativa a la raíz del sitio.
+      expect(url.startsWith(SITE), url).toBeTruthy();
+      const path = `/${url.slice(SITE.length)}`;
       const page = await request.get(path);
       expect(page.status(), path).toBe(200);
     }

@@ -6,12 +6,13 @@ import { defineConfig, devices } from "@playwright/test";
  *   npm test          (headless)
  *   npm run test:ui   (modo interactivo)
  *
- * Usa el Edge instalado en Windows para no descargar navegadores:
- *   npx playwright install chromium   y quita `channel` si prefieres Chromium.
+ * En local usa el Edge instalado en Windows (no descarga navegadores). En CI
+ * (Linux) usa el Chromium que instala Playwright.
  */
 
 const PORT = Number(process.env.PORT || 8123);
 const baseURL = `http://127.0.0.1:${PORT}`;
+const channel = process.env.CI ? undefined : "msedge";
 
 export default defineConfig({
   testDir: "./tests",
@@ -34,8 +35,8 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "edge",
-      use: { ...devices["Desktop Chrome"], channel: "msedge" }
+      name: channel ? "edge" : "chromium",
+      use: { ...devices["Desktop Chrome"], ...(channel ? { channel } : {}) }
     }
   ]
 });
